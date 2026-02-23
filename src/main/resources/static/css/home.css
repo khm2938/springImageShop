@@ -1,13 +1,77 @@
-body {
-  background-color: lightblue;
+/* ============================= */
+/* 기본 리셋 */
+/* ============================= */
+* {
+  box-sizing: border-box;
 }
 
-h1 {
-  color: white;
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", Arial, sans-serif;
+  background-color: #f5f6fa;
+  color: #333;
+}
+
+/* ============================= */
+/* 공통 헤더 / 메뉴 */
+/* ============================= */
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #2f80ed;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================= */
+/* 홈 컨테이너 */
+/* ============================= */
+.home-container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 40px 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
 
-p {
-  font-family: verdana;
-  font-size: 20px;
+/* 제목 */
+.home-container h1 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* 서버시간 표시 */
+.home-container p {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #eef2ff;
+  border-radius: 30px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* ============================= */
+/* 반응형 */
+/* ============================= */
+@media (max-width: 600px) {
+  .home-container {
+    margin: 30px 15px;
+    padding: 25px 15px;
+  }
+
+  .home-container h1 {
+    font-size: 24px;
+  }
 }

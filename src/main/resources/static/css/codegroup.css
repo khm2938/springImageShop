@@ -1,0 +1,243 @@
+/* =========================
+   Base
+========================= */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", Arial, sans-serif;
+  background: #f5f6fa;
+  color: #222;
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 0;
+}
+
+/* 상단 메뉴 영역 */
+#menu {
+  background: #fff;
+  padding: 10px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* =========================
+   Legacy center wrapper
+========================= */
+body > div[align="center"] {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 28px 22px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+}
+
+h2 {
+  margin: 0 0 18px;
+  font-size: 26px;
+}
+
+/* =========================
+   Form table (register/read/modify)
+========================= */
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+td, th {
+  padding: 8px 10px;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+  width: 220px;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #2f80ed;
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.15);
+}
+
+/* 기본 버튼 (폼 페이지) */
+button {
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover { background: #f3f4f6; }
+
+#btnRegister {
+  border-color: #2f80ed;
+  color: #2f80ed;
+}
+#btnRegister:hover {
+  background: rgba(47, 128, 237, 0.10);
+}
+
+/* footer 텍스트(footer.jsp 내부 p) */
+body > div[align="center"] p {
+  margin-top: 18px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* =========================
+   List page layout (page-card)
+========================= */
+.page-card{
+  width: min(920px, calc(100% - 32px));
+  margin: 40px auto 24px;
+  padding: 26px 22px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
+}
+
+.page-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.page-title{
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: -0.3px;
+}
+
+/* list page button (a.btn) */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #111827;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.btn:hover{ background: #f3f4f6; }
+.btn:active{ transform: translateY(1px); }
+
+.btn-primary{
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.btn-primary:hover{
+  background: #dbeafe;
+}
+
+/* =========================
+   List table (data-table)
+========================= */
+.table-wrap{
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+}
+
+.data-table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;  
+  min-width: 620px;
+}
+
+.data-table thead th{
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;  
+}
+
+.data-table tbody td{
+  padding: 12px 14px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f2f5;
+  background: #fff;
+  vertical-align: middle;
+}
+
+.data-table tbody tr:hover td{
+  background: #f9fafb;
+}
+
+.data-table tbody tr:last-child td{
+  border-bottom: none;
+}
+
+.data-table thead th:first-child,
+.data-table thead th:last-child{
+  text-align: center;
+}
+
+.data-table tbody td.mono{
+  text-align: center;
+  width: 120px;  
+}
+
+.data-table tbody td.muted{
+  text-align: center;
+  width: 160px; 
+}
+
+.data-table tbody td:nth-child(2){
+  width: auto;
+}
+
+.link{
+  color: #2563eb;
+  font-weight: 500; 
+  text-decoration: none;
+}
+.link:hover{ text-decoration: underline; }
+
+/* util */
+.mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.muted{ color: #6b7280; }
+
+.empty{
+  text-align: center;
+  color: #6b7280;
+  padding: 28px 14px !important;
+}
+
+.footer-card{
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto 60px;
+  padding: 18px 18px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
+}

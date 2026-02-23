@@ -1,0 +1,119 @@
+.home-container {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 28px 22px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+}
+
+.home-container h1 {
+  margin: 0 0 12px;
+  font-size: 30px;
+  letter-spacing: -0.4px;
+}
+
+.home-container p {
+  display: inline-block;
+  margin: 0;
+  padding: 10px 14px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  color: #374151;
+  font-size: 14px;
+}
+
+/* =========================
+   Header (site-like topbar)
+========================= */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.90);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header-inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+/* 브랜드 */
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brand-mark{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.brand-text{
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+}
+
+/* 네비 */
+.nav{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-link{
+  text-decoration: none;
+  font-weight: 700;
+  color: #374151;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+}
+
+.nav-link:hover{
+  background: #f3f4f6;
+}
+
+/* 오른쪽 */
+.nav-right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chip{
+  font-size: 12px;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+/* 모바일 */
+@media (max-width: 600px){
+  .brand-text{ display:none; }
+  .header-inner{ padding: 12px 12px; }
+  .nav-link{ padding: 8px 10px; font-size: 14px; }
+}
