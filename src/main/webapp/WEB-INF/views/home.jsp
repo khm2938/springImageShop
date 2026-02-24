@@ -16,7 +16,7 @@
 
 <body>
   <jsp:include page="/WEB-INF/views/common/header.jsp" />
-  <jsp:include page="/WEB-INF/views/common/menu.jsp" />
+
 
   <div class="home-container" align="center">
     <h1><spring:message code="common.homeWelcome" /></h1>

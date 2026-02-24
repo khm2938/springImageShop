@@ -34,13 +34,13 @@
   z-index: 1000;
   background: rgba(255,255,255,0.90);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: none;
 }
 
 .header-inner{
   max-width: 1100px;
   margin: 0 auto;
-  padding: 14px 18px;
+  padding: 14px 155px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -116,4 +116,54 @@
   .brand-text{ display:none; }
   .header-inner{ padding: 12px 12px; }
   .nav-link{ padding: 8px 10px; font-size: 14px; }
+}
+
+/* 메뉴바 (헤더 아래 줄) */
+.menu-bar{
+  background: #f3f4f6;   
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* 메뉴바 안쪽 폭 + 좌우 여백 */
+.header-inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 40px;  /* 140 → 40 */
+}
+
+.menu-inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* 메뉴 오른쪽 정렬 */
+#menu{
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* table 간격 */
+#menu table{
+  border-collapse: collapse;
+  width: auto;
+}
+#menu td, #menu a{
+  white-space: nowrap;
+}
+
+#menu td{
+  padding-left: 18px;
+}
+
+#menu a{
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  color: #2563eb;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+#menu a:hover{
+  background: #e5e7eb;
 }
