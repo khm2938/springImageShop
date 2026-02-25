@@ -15,6 +15,7 @@ uri="http://www.springframework.org/security/tags"%>
           <!-- 로그인을 하지 않은 경우에 접근 가능한 메뉴 --> 
 		  <sec:authorize access="!isAuthenticated()"> 
 		       <td><a href="<c:url value='/user/register'/>"><spring:message code="header.joinMember" /></a></td>
+		  	   <td><a href="/auth/login"><spring:message code="header.login" /></a></td>
 		  </sec:authorize> 
 		  
 		  <!-- 인증된 사용자가 접근 가능한 메뉴(인가: 관리자, 회원, 매니저) --> 

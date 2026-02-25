@@ -24,7 +24,7 @@ public class LoginController {
 			model.addAttribute("error", "로그인 에러!!!");
 		}
 		if (logout != null) {
-			model.addAttribute("logout", "로그아웃!!!");
+			model.addAttribute("logout", "로그아웃 되었습니다.");
 		}
 		return "auth/loginForm";
 	}
