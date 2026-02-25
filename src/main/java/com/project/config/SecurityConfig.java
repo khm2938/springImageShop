@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,12 +25,11 @@ import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Configuration
-@EnableWebSecurity
 @Slf4j
+@Configuration
 @RequiredArgsConstructor
-//@EnableMethodSecurity(prePostEnabled=true, securedEnabled=true)
-//@EnableWebSecurity: 스프링에서 지원하는 거 안 쓰고 이제 내가 커스텀만들겠다 선언
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled=true, securedEnabled=true)
 public class SecurityConfig {
 
 	// 프로퍼티에 있는 db의 datasource 가져오는 것
@@ -46,12 +46,13 @@ public class SecurityConfig {
 		// 2. 시큐리티 인가 정책
 		httpSecurity.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 				.requestMatchers("/accessError", "/login", "/logout", "/css/**", "/js/**", "/error").permitAll()
-				.requestMatchers("/board/**").authenticated() // 게시판 : 인증 필요(로그인)
-				.requestMatchers("/manager/**").hasRole("MANAGER") // 매니저 기능은 인가 필요
-				.requestMatchers("/admin/**").hasRole("ADMIN") // 매니저 기능은 인가 필요
+				//.requestMatchers("/board/**").authenticated() // 게시판 : 인증 필요(로그인)
+				//.requestMatchers("/manager/**").hasRole("MANAGER") // 매니저 기능은 인가 필요
+				//.requestMatchers("/admin/**").hasRole("ADMIN") // 매니저 기능은 인가 필요
 				.anyRequest().permitAll() // 그 외 모든 요청은 인증, 인가가 필요 없다
 		);
-
+		
+		
 		// 3. 접근 거부 시 보여줄 페이지(예외 처리)
 //		httpSecurity.exceptionHandling(exception ->exception.accessDeniedPage("/accessError"));
 		httpSecurity.exceptionHandling(exception ->
@@ -70,12 +71,12 @@ public class SecurityConfig {
 
 		// 5. 로그아웃 처리
 		// 5. 로그아웃 설정 수정
-//		httpSecurity.logout(logout -> logout.logoutUrl("/logout") // 로그아웃을 처리할 URL (기본값: /logout)
-//				.logoutSuccessUrl("/login") // 로그아웃 성공 시 이동할 페이지
-//				.invalidateHttpSession(true) // HTTP 세션 무효화 (기본값: true)
-//				.deleteCookies("JSESSIONID", "remember-me") // 로그아웃 시 관련 쿠키 삭제
-		// .permitAll() // 로그아웃 요청은 누구나 접근 가능해야 함
-//		);
+		httpSecurity.logout(logout -> logout.logoutUrl("/auth/logout") // 로그아웃을 처리할 URL (기본값: /logout)
+				.logoutSuccessUrl("/auth/login") // 로그아웃 성공 시 이동할 페이지
+				.invalidateHttpSession(true) // HTTP 세션 무효화 (기본값: true)
+				.deleteCookies("JSESSIONID", "remember-me") // 로그아웃 시 관련 쿠키 삭제
+				.permitAll() // 로그아웃 요청은 누구나 접근 가능해야 함
+		);
 
 		// 6. 자동 로그인(Remember-Me) 설정 수정
 		httpSecurity
