@@ -21,8 +21,9 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-
-	<div align="center">
+<div class="board-register-wrap">
+		<div class="board-register-card">
+	
 		<h2>
 			<spring:message code="board.header.register" />
 		</h2>
@@ -47,7 +48,7 @@
 			</table>
 		</form:form>
 		
-			<div>
+			<div class="board-register-actions">
 				<sec:authorize access="isAuthenticated()">
 					<button type="button" id="btnRegister">
 						<spring:message code="action.register" />
@@ -58,11 +59,11 @@
 						<spring:message code="action.list" />
 					</button>
 			</div>
-		
+		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-
+	
 	<script>
 		$(document).ready(function() {
 			var formObj = $("#board");
@@ -75,5 +76,6 @@
 			});
 		});
 	</script>
+	
 </body>
 </html>

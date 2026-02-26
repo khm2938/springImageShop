@@ -331,3 +331,152 @@
 .board-table td.col-date{
   text-align: center;
 }
+
+
+/* =========================
+   Board Register 
+========================= */
+
+/* 페이지 폭/여백 */
+.board-register-wrap{
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 40px;
+}
+
+/* 카드 스타일 */
+.board-register-card{
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+  padding: 22px;
+}
+
+/* header */
+.board-register-card h2{
+  margin: 0 0 14px;
+  font-size: 22px;
+  letter-spacing: -0.3px;
+  color: #111827;
+}
+
+.board_table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* 줄 구분선 */
+.board_table tr + tr{
+  border-top: 1px solid #f1f5f9;
+}
+
+/* 셀 패딩 */
+.board_table td{
+  padding: 12px 10px;
+  vertical-align: top;
+}
+
+/* 왼쪽 라벨 칸 */
+.board_table td:first-child{
+  width: 120px;
+  color: #374151;
+  font-weight: 900;
+  padding-top: 16px;
+  white-space: nowrap;
+}
+
+/* input/textarea 공통 */
+.board_table input[type="text"],
+.board_table textarea{
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+/* readonly 필드 회색 처리 */
+.board_table input[readonly]{
+  background: #f9fafb;
+  color: #6b7280;
+}
+
+/* 포커스 효과 */
+.board_table input[type="text"]:focus,
+.board_table textarea:focus{
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+}
+
+/* textarea */
+.board_table textarea{
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* 에러 메시지 */
+.board_table font[color="red"]{
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 700;
+}
+
+/* 버튼 영역 */
+.board-register-actions{
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* 버튼 공통 */
+.board-register-actions input[type="submit"],
+.board-register-actions input[type="button"],
+.board-register-actions button{
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #111827;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.05s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.board-register-actions input[type="submit"]:hover,
+.board-register-actions input[type="button"]:hover,
+.board-register-actions button:hover{
+  border-color: #9ca3af;
+  box-shadow: 0 8px 16px rgba(17, 24, 39, 0.08);
+  transform: translateY(-1px);
+}
+
+/* 등록 버튼 */
+.board-register-actions input[type="submit"],
+.board-register-actions button[type="submit"]{
+  background: #eff6ff;
+  border-color: #dbeafe;
+  color: #2563eb;
+}
+.board-register-actions input[type="submit"]:hover,
+.board-register-actions button[type="submit"]:hover{
+  background: #dbeafe;
+}
+
+/* 모바일 */
+@media (max-width: 600px){
+  .board-register-wrap{ padding: 0 12px; margin: 24px auto; }
+  .board-register-card{ padding: 16px; }
+  .board_table td:first-child{ width: 92px; }
+  .board-register-card h2{ font-size: 18px; }
+}
+
+
+
+
