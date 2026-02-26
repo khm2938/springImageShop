@@ -73,21 +73,21 @@
 					</tbody>
 				</table>
 				<!-- 페이징 네비게이션 --> 
-					<div> 
+					<div class="pagination"> 
 						<c:if test="${pagination.prev}">
 							<!-- ?page=3&sizePerPage=10 --> 
-							<a href="/board/list${pagination.makeQuery(pagination.startPage - 1)}">&laquo;</a> 
+							<a class="page nav" href="/board/list${pagination.makeQuery(pagination.startPage - 1)}">&laquo;</a> 
 						</c:if> 
 						<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="idx"> 
 						<c:if test= "${pagination.pageRequest.page eq idx}"> 
-							<a href="/board/list${pagination.makeQuery(idx)}">[${idx}]</a> 
+							<a class="page active" href="/board/list${pagination.makeQuery(idx)}">[${idx}]</a> 
 						</c:if> 
 							<c:if test= "${!(pagination.pageRequest.page eq idx)}"> 
-						<a href="/board/list${pagination.makeQuery(idx)}">${idx}</a> 
+							<a class="page active" href="/board/list${pagination.makeQuery(idx)}">${idx}</a> 
 						</c:if> 
 						</c:forEach> 
 						<c:if test="${pagination.next && pagination.endPage > 0}"> 
-							<a href="/board/list${pagination.makeQuery(pagination.endPage +1)}">&raquo;</a> 
+							<a class="page nav" href="/board/list${pagination.makeQuery(pagination.endPage +1)}">&raquo;</a> 
 						</c:if> 
 					</div> 
 				</div>  

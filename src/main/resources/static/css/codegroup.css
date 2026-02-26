@@ -241,3 +241,49 @@ body > div[align="center"] p {
   border-radius: 18px;
   box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06);
 }
+
+/* =========================
+   Pagination 
+========================= */
+
+.pagination{
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+/* 기본 페이지 */
+.pagination a{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 450;
+}
+
+/* hover */
+.pagination a:hover{
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* 현재 페이지 */
+.pagination a.active{
+  color: #111827;
+  font-weight: 450;
+}
+
+/* 이전/다음 */
+.pagination a.nav{
+  font-size: 18px;
+  font-weight: 450;
+}
