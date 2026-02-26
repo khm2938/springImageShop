@@ -56,18 +56,42 @@
 								<c:forEach items="${list}" var="board">
 									<tr>
 										<td class="col-no">${board.boardNo}</td>
-										<td class="col-title"><a class="title-link"
-											href="/board/read?boardNo=${board.boardNo}">
-												${board.title} </a></td>
+										<!--  
+										<td class="col-title"><a class="title-link" href="/board/read?boardNo=${board.boardNo}"> ${board.title} </a></td>
+										<td class="col-title"><a class="title-link" href="/board/read?boardNo=${board.boardNo}
+											?page=${pagination.pageRequest.page}
+											&sizePerPage={pagination.pageRequest.sizePerPage}"> ${board.title} </a></td> -->
+										
+										<td class="col-title"><a class="title-link" href="/board/read
+											${pagination.makeQuery(pagination.pageRequest.page)}&boardNo=${board.boardNo}"> ${board.title} </a></td>
 										<td class="col-writer">${board.writer}</td>
-										<td class="col-date"><fmt:formatDate
-												pattern="yyyy-MM-dd HH:mm" value="${board.regDate}" /></td>
+										<td class="col-date"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.regDate}" /></td>
 									</tr>
 								</c:forEach>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
 				</table>
+				<!-- 페이징 네비게이션 --> 
+					<div> 
+						<c:if test="${pagination.prev}">
+							<!-- ?page=3&sizePerPage=10 --> 
+							<a href="/board/list${pagination.makeQuery(pagination.startPage - 1)}">&laquo;</a> 
+						</c:if> 
+						<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="idx"> 
+						<c:if test= "${pagination.pageRequest.page eq idx}"> 
+							<a href="/board/list${pagination.makeQuery(idx)}">[${idx}]</a> 
+						</c:if> 
+							<c:if test= "${!(pagination.pageRequest.page eq idx)}"> 
+						<a href="/board/list${pagination.makeQuery(idx)}">${idx}</a> 
+						</c:if> 
+						</c:forEach> 
+						<c:if test="${pagination.next && pagination.endPage > 0}"> 
+							<a href="/board/list${pagination.makeQuery(pagination.endPage +1)}">&raquo;</a> 
+						</c:if> 
+					</div> 
+				</div>  
+				
 			</div>
 		</div>
 

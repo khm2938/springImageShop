@@ -1,0 +1,116 @@
+/* =========================
+   Login Page (auth/login)
+========================= */
+
+/* 전체 중앙 정렬 */
+.login-wrap{
+  min-height: calc(100vh - 120px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 16px;
+}
+
+/* 카드 */
+.login-card{
+  width: 520px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+  padding: 28px 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 로고는 */
+.login-logo{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.login-wrap .brand{
+  justify-content: center;
+}
+
+.login-wrap .brand-mark{
+  width: 50px;    
+  height: 50px;
+  font-size: 18px;  
+}
+
+.login-wrap .brand-text{
+  font-size: 22px;  
+}
+
+.login-card .login-form{
+  width: 320px;
+  margin: 0 auto;     
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 아이디/비번 입력창 크기 늘리기 */
+.login-card .login-form .input{
+  width: 100% !important;
+  box-sizing: border-box !important;
+
+  height: 52px !important;
+  padding: 0 14px !important;
+
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  outline: none;
+}
+
+/* focus 효과 */
+.login-card .login-form .input:focus{
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96,165,250,0.25) !important;
+}
+
+/* 로그인 버튼과 상태유지 버튼 크기 동일 */
+.login-card .login-form .btn-login,
+.login-card .login-form .remember-btn{
+  width: 100% !important;
+  height: 52px !important;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  box-sizing: border-box;
+}
+
+/* 로그인 버튼 */
+.login-card .login-form .btn-login{
+  border: none;
+  background: linear-gradient(180deg, #1677ff, #0b5ad9);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 상태유지: 버튼 모양 유지 + 체크박스 보이게 */
+.login-card .login-form .remember-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #111827;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 체크박스는 그대로 보이게 */
+.login-card .login-form .remember-btn input[type="checkbox"]{
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #2563eb;
+}

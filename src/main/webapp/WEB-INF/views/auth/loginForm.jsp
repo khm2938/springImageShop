@@ -22,46 +22,35 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 
-	<div align="center">
-		<h2>
-			<spring:message code="auth.header.login" />
-		</h2>
-		<h2>
-			<c:out value="${error}" />
-		</h2>
-		<h2>
-			<c:out value="${logout}" />
-		</h2>
-		<form method="post" action="/login">
-			<table>
-				<tr>
-					<td>아이디</td>
-					<td><input type="text" name="username"></td>
-				</tr>
-				<tr>
-					<td>비밀번호</td>
-					<td><input type="password" name="password"></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="checkbox" name="remember-me">
-					<spring:message code="auth.rememberMe" /></td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-					<button>
-						<spring:message code="action.login" />
-					</button>
-					</td>
-				</tr>
-			</table>
-			<sec:csrfInput /> 
-		</form>
+	<div class="login-wrap">
+		<div class="login-card">
 
+			<div class="login-logo">
+				<a class="brand" href="<c:url value='/'/>"> <span
+					class="brand-mark">IS</span> <span class="brand-text">Image
+						Shop</span>
+				</a>
+			</div>
+
+			<form class="login-form" method="post" action="/login">
+				<input class="input" type="text" name="username" placeholder="아이디">
+				<input class="input" type="password" name="password"
+					placeholder="비밀번호">
+
+				<button class="btn-login" type="submit">로그인</button>
+
+				<label class="remember-btn"> <input type="checkbox"
+					name="remember-me"> <span>로그인 상태 유지</span>
+				</label>
+
+				<sec:csrfInput />
+			</form>
+
+		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
-	
+
 </body>
 </html>

@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -24,9 +25,13 @@
 	<div align="center">
 		<h2>
 			<spring:message code="board.header.read" />
-		</h2> 
-		<form:form modelAttribute="board" action="/board/modify" method="post">
+		</h2>
+		<form:form id="boardForm" modelAttribute="board" action="/board/modify" method="post">
 			<form:hidden path="boardNo" />
+			<!-- 현재 페이지 번호와 페이징 크기를 숨겨진 필드 요소를 사용하여 전달한다. -->
+			<input type="hidden" id="page" name="page" value="${pgrq.page}">
+			<input type="hidden" id="sizePerPage" name="sizePerPage"
+				value="${pgrq.sizePerPage}">
 			<table>
 				<tr>
 					<td><spring:message code="board.title" /></td>
@@ -48,28 +53,28 @@
 
 		<div>
 			<!-- 사용자정보 가져오기 -->
-			<sec:authentication property="principal" var="principal"/>
+			<sec:authentication property="principal" var="principal" />
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<button type="submit" id="btnModify">
+				<button type="button" id="btnModify">
 					<spring:message code="action.modify" />
 				</button>
-				<button type="submit" id="btnRemove">
+				<button type="button" id="btnRemove">
 					<spring:message code="action.remove" />
 				</button>
 			</sec:authorize>
-			
+
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 				<c:if test="${principal.username eq board.writer}">
-					<button type="submit" id="btnModify">
+					<button type="button" id="btnModify">
 						<spring:message code="action.modify" />
 					</button>
-					<button type="submit" id="btnRemove">
+					<button type="button" id="btnRemove">
 						<spring:message code="action.remove" />
 					</button>
 				</c:if>
 			</sec:authorize>
-			
-			<button type="submit" id="btnList">
+
+			<button type="button" id="btnList">
 				<spring:message code="action.list" />
 			</button>
 		</div>
@@ -79,15 +84,15 @@
 
 	<script>
 		$(document).ready(function() {
-			let formObj = $("#board");
+			let formObj = $("#boardForm");
 
 			$("#btnModify").on("click", function() {
 				formObj.submit();
 			});
 
 			$("#btnRemove").on("click", function() {
-				let boardNo = $("#boardNo")
-				self.location = "/board/remove?boardNo="+boardNo.val();
+				let boardNo = $("#boardNo").val();
+				self.location = "/board/remove?${pgrq.toUriString()}boardNo=" + boardNo;
 			});
 
 			$("#btnList").on("click", function() {

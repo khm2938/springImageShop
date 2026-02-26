@@ -6,10 +6,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.common.domain.PageRequest;
+import com.project.common.domain.Pagination;
 import com.project.common.security.domain.CustomUser;
 import com.project.domain.Board;
 import com.project.domain.Member;
@@ -52,29 +55,47 @@ public class BoardController {
 
 	// 게시글 목록 페이지
 	@GetMapping("/list")
-	public void list(Model model) throws Exception {
-		model.addAttribute("list", service.list());
+	public void list(@ModelAttribute("pgrq") PageRequest pageRequest ,Model model) throws Exception {
+		
+		if(pageRequest.getPage() == 0) {
+			pageRequest = new PageRequest();
+		}
+		
+		// 4페이지를 보여주는 기능 30~40 가져옴
+		model.addAttribute("list", service.list(pageRequest));
+		// 페이지를 보여주는 기능 ([prev=true] 1, 2, 3, [4], 5, 6, 7, 8, 9, 10 [next=true])
+		Pagination pagination = new Pagination();
+		// 현재페이지 4, 한 페이지당 보여주는 갯수 10개
+		pagination.setPageRequest(pageRequest);
+		// 리스트 전체갯수를 셋팅하고, 현재 페이지를 기준으로 다시 계산
+		pagination.setTotalCount(service.count());
+		// 화면에 보여질 페이지 정보
+		model.addAttribute("pagination", pagination); 
 	}
 
 	// 게시글 상세 페이지
 	@GetMapping("/read")
-	public void read(Board board, Model model) throws Exception {
+	public void read(Board board, @ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
 		model.addAttribute(service.read(board));
 	}
 
 	// 게시글 수정 페이지
 	@GetMapping("/modify")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
-	public void modifyForm(Board board, Model model) throws Exception {
+	public void modifyForm(Board board, @ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
 		model.addAttribute(service.read(board));
 	}
 
 	// 게시글 수정 처리
 	@PostMapping("/modify")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
-	public String modify(Board board, RedirectAttributes rttr) throws Exception {
+	public String modify(Board board, PageRequest pageRequest, RedirectAttributes rttr) throws Exception {
 		int count = service.modify(board);
-
+		
+		// RedirectAttributes 객체에 일회성 데이터를 지정하여 전달한다. 
+		rttr.addAttribute("page", pageRequest.getPage()); 
+		rttr.addAttribute("sizePerPage", pageRequest.getSizePerPage());
+		
 		if (count != 0) {
 			rttr.addFlashAttribute("msg", "SUCCESS");
 		} else {
@@ -86,9 +107,13 @@ public class BoardController {
 	// 게시글 삭제 처리
 	@GetMapping("/remove")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
-	public String remove(Board board, RedirectAttributes rttr) throws Exception {
+	public String remove(Board board, PageRequest pageRequest, RedirectAttributes rttr) throws Exception {
 		int count = service.remove(board);
 		
+		// RedirectAttributes 객체에 일회성 데이터를 지정하여 전달한다. 
+		rttr.addAttribute("page", pageRequest.getPage()); 
+		rttr.addAttribute("sizePerPage", pageRequest.getSizePerPage());
+				
 		if (count != 0) {
 			rttr.addFlashAttribute("msg", "SUCCESS");
 		} else {
