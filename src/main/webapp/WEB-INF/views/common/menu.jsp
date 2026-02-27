@@ -9,15 +9,17 @@
       <table>
         <tr>
        	  <td><a href="/"><spring:message code="header.home" /></a></td> 
-          <!-- 회원가입메뉴 -->
-          <!-- 로그인을 하지 않은 경우에 접근 가능한 메뉴 --> 
+   
+          <!-- 비회원이 접근 가능한 메뉴 --> 
 		  <sec:authorize access="!isAuthenticated()"> 
 		       <!-- 회원가입 -->
 		       <td><a href="<c:url value='/user/register'/>"><spring:message code="header.joinMember" /></a></td>
 		  	   <!-- 로그인 -->
 		  	   <td><a href="/auth/login"><spring:message code="header.login" /></a></td>
 		  	   <!-- 회원게시판 리스트 -->
-          		<td><a href="/board/list">회원게시판 리스트</a></td>
+          	   <td><a href="/board/list">회원게시판 리스트</a></td>
+          	   <!-- 공지사항 --> 
+			   <td><a href="/notice/list"><spring:message code="menu.notice.member" /></a></td> 
 		  </sec:authorize> 
 		  
 		  <!-- 인증된 사용자가 접근 가능한 메뉴(인가: 관리자, 회원, 매니저) --> 
@@ -32,6 +34,8 @@
           			<td><a href="/user/list"><spring:message code="menu.user.admin" /></a></td>
           			<!-- 회원게시판 리스트 -->
           			<td><a href="/board/list">회원게시판 리스트</a></td>
+          			<!-- 공지사항 --> 
+			        <td><a href="/notice/list"><spring:message code="menu.notice.member" /></a></td> 
 	 			</sec:authorize>
 	 			
 	 			<!-- 회원 권한 메뉴 -->
@@ -40,6 +44,8 @@
           			<td><a href="/board/register">회원게시판등록</a></td>
 	 				<!-- 회원게시판 리스트 -->
           			<td><a href="/board/list">회원게시판 리스트</a></td>
+          			<!-- 공지사항 --> 
+			   		<td><a href="/notice/list"><spring:message code="menu.notice.member" /></a></td> 
 	 			</sec:authorize>
 	 		
 	 			
