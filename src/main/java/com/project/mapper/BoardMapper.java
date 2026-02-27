@@ -26,7 +26,7 @@ public interface BoardMapper {
 	public int remove(Board board) throws Exception;
 
 	// 게시글 전체 건수 조회
-	public int count() throws Exception;
+	public int count(PageRequest pageRequest) throws Exception;
 	
 	
 }

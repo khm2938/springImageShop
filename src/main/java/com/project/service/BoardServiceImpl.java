@@ -47,9 +47,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 게시글 전체 건수 조회
 	@Override
-	public int count() throws Exception {
-		return mapper.count();
+	public int count(PageRequest pageRequest) throws Exception {
+		return mapper.count(pageRequest);
 	}
-
 	
 }

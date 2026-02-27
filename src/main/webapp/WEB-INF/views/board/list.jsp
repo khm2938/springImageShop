@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
@@ -24,6 +25,15 @@
 				<h2 class="board-title">
 					<spring:message code="board.header.list" />
 				</h2>
+				<!-- 검색 폼 --> 
+				<form:form modelAttribute="pgrq" method="get" action="/board/list${pgrq.toUriStringByPage()}"> 
+				<form:select path="searchType" items="${searchTypeCodeValueList}" 
+					itemValue="value" itemLabel="label" /> 
+				<form:input path="keyword" /> 
+				<button id='searchBtn'>
+					<spring:message code="action.search" />
+				</button> 
+				</form:form>
 
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 					<a class="btn-primary" href="/board/register"> <spring:message
@@ -63,7 +73,7 @@
 											&sizePerPage={pagination.pageRequest.sizePerPage}"> ${board.title} </a></td> -->
 										
 										<td class="col-title"><a class="title-link" href="/board/read
-											${pagination.makeQuery(pagination.pageRequest.page)}&boardNo=${board.boardNo}"> ${board.title} </a></td>
+											${pgrq.toUriString(pgrq.page)}&boardNo=${board.boardNo}"> ${board.title} </a></td>
 										<td class="col-writer">${board.writer}</td>
 										<td class="col-date"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.regDate}" /></td>
 									</tr>
@@ -73,32 +83,34 @@
 					</tbody>
 				</table>
 				<!-- 페이징 네비게이션 --> 
-					<div class="pagination"> 
-						<c:if test="${pagination.prev}">
-							<!-- ?page=3&sizePerPage=10 --> 
-							<a class="page nav" href="/board/list${pagination.makeQuery(pagination.startPage - 1)}">&laquo;</a> 
-						</c:if> 
-						<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="idx"> 
-						<c:if test= "${pagination.pageRequest.page eq idx}"> 
-							<a class="page active" href="/board/list${pagination.makeQuery(idx)}">[${idx}]</a> 
-						</c:if> 
-							<c:if test= "${!(pagination.pageRequest.page eq idx)}"> 
-							<a class="page active" href="/board/list${pagination.makeQuery(idx)}">${idx}</a> 
-						</c:if> 
-						</c:forEach> 
-						<c:if test="${pagination.next && pagination.endPage > 0}"> 
-							<a class="page nav" href="/board/list${pagination.makeQuery(pagination.endPage +1)}">&raquo;</a> 
-						</c:if> 
-					</div> 
+				<div class="pagination">
+					<c:if test="${empty pgrq.keyword}">
+                	<c:if test="${pagination.prev}">
+                    	<!-- ?page=3&sizePerPage=10" -->
+                    	<a class="page nav" href="/board/list${pagination.makeQuery(pagination.startPage - 1)}">&laquo;</a>
+                	</c:if>
+                	<c:forEach begin="${pagination.startPage }"
+                    	end="${pagination.endPage }" var="idx">
+                    <c:if test="${pagination.pageRequest.page eq idx}">
+                        <a class="page active" href="/board/list${pagination.makeQuery(idx)}">[${idx}]</a>
+                    </c:if>
+                    <c:if test="${!(pagination.pageRequest.page eq idx)}">
+                        <a class="page active" href="/board/list${pagination.makeQuery(idx)}">${idx}</a>
+                    </c:if>
+                	</c:forEach>
+               		<c:if test="${pagination.next && pagination.endPage > 0}">
+                   		<a  class="page nav" href="/board/list${pagination.makeQuery(pagination.endPage +1)}">&raquo;</a>
+                	</c:if>
+            		</c:if>
+				</div> 
 				</div>  
-				
 			</div>
 		</div>
 
 		<div class="footer-card">
 			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 		</div>
-	</div>
+	
 
 	<script>
 		var result = "${msg}";
