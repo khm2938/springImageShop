@@ -23,11 +23,11 @@
 		<div class="notice-card">
 			<div class="notice-head">
 				<h2 class="notice-title">
-					<spring:message code="notice.header.list" />
+					<spring:message code="item.header.list" />
 				</h2>
-				
-				
-				
+
+
+
 				<%-- 검색 폼 
 				<form:form modelAttribute="pgrq" method="get" action="/notice/list${pgrq.toUriStringByPage()}"> 
 				<form:select path="searchType" items="${searchTypeCodeValueList}" 
@@ -40,57 +40,84 @@
 				--%>
 
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<a class="btn-primary" href="/notice/register"> <spring:message
-							code="action.new" /></a>
+					<a href="register"><spring:message code="action.new" /></a>
 				</sec:authorize>
-			</div>
-			<table border="1">
-				<tr>
-					<th align="center" width="80"><spring:message code="notice.no" /></th>
-					<th align="center" width="320"><spring:message
-							code="notice.title" /></th>
-					<th align="center" width="180"><spring:message
-							code="notice.regdate" /></th>
-				</tr>
-				<c:choose>
-					<c:when test="${empty list}">
-						<tr>
-							<td colspan="3"><spring:message code="common.listEmpty" />
-							</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach items="${list}" var="notice">
+
+				<table border="1">
+					<tr>
+						<th align="center" width="80"><spring:message code="item.itemId" /></th>
+						<th align="center" width="320"><spring:message code="item.itemName" /></th>
+						<th align="center" width="100"><spring:message code="item.itemPrice" /></th>
+								
+
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
+							<th align="center" width="80"><spring:message
+									code="item.edit" /></th>
+							<th align="center" width="80"><spring:message
+									code="item.remove" /></th>
+						</sec:authorize>
+
+						<sec:authorize access="hasRole('ROLE_MEMBER')">
+							<th align="center" width="80"><spring:message
+									code="item.read" /></th>
+						</sec:authorize>
+					</tr>
+
+					<c:choose>
+						<c:when test="${empty itemList}">
 							<tr>
-								<td align="center">${notice.noticeNo}</td>
-								<td align="left">
-									<a href="/notice/read?noticeNo=${notice.noticeNo}">
-									<c:out value="${notice.title}" />
-									</a>
-								</td>
-								<td align="center"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${notice.regDate}" /></td>
+								<sec:authorize access="!hasRole('ROLE_ADMIN') AND !hasRole('ROLE_MEMBER')"></td>
+									<td colspan="3"><spring:message code="common.listEmpty" />
+								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<td colspan="5"><spring:message code="common.listEmpty" /></td>
+								</sec:authorize>
+								<sec:authorize access="hasRole('ROLE_MEMBER')">
+									<td colspan="4"><spring:message code="common.listEmpty" />
+								</sec:authorize>
 							</tr>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</table>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="${itemList}" var="item">
+								<tr>
+									<td align="center">${item.itemId}</td>
+									<td align="left">${item.itemName}</td>
+									<td align="right">${item.price}원</td>
+									<sec:authorize access="hasRole('ROLE_ADMIN')">
+										<td align="center">
+											<a href="modify?itemId=${item.itemId}"><spring:message code="item.edit" /></a></td>
+													
+										<td align="center">
+											<a href="remove?itemId=${item.itemId}"><spring:message code="item.remove" /></a></td>
+									</sec:authorize>
+
+									<sec:authorize access="hasRole('ROLE_MEMBER')">
+										<td align="center">
+											<a href="read?itemId=${item.itemId}"><spring:message code="item.read" /></a></td>
+									</sec:authorize>
+
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</table>
+			</div>
 		</div>
-	</div>
-	
-	<!-- 페이징 네비 -->
-	
-	<div class="footer-card">
-		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-	</div>
+
+		<!-- 페이징 네비 -->
+
+		<div class="footer-card">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+		</div>
 
 
-	<script>
-		var result = "${msg}";
-		if (result === "SUCCESS") {
-			alert("<spring:message code='common.processSuccess' />");
-		} else if (result === "FAIL") {
-			alert("요청처리 실패");
-		}
-	</script>
+		<script>
+			var result = "${msg}";
+			if (result === "SUCCESS") {
+				alert("<spring:message code='common.processSuccess' />");
+			} else if (result === "FAIL") {
+				alert("요청처리 실패");
+			}
+		</script>
 </body>
 </html>

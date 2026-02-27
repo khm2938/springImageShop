@@ -20,6 +20,8 @@
           	   <td><a href="/board/list">회원게시판 리스트</a></td>
           	   <!-- 공지사항 --> 
 			   <td><a href="/notice/list"><spring:message code="menu.notice.member" /></a></td> 
+			   <!-- 상품리스트 --> 
+			   <td><a href="/item/list"><spring:message code="item.header.list" /></a></td>
 		  </sec:authorize> 
 		  
 		  <!-- 인증된 사용자가 접근 가능한 메뉴(인가: 관리자, 회원, 매니저) --> 
@@ -36,6 +38,8 @@
           			<td><a href="/board/list">회원게시판 리스트</a></td>
           			<!-- 공지사항 --> 
 			        <td><a href="/notice/list"><spring:message code="menu.notice.member" /></a></td> 
+			        <!-- 상품리스트 --> 
+			        <td><a href="/item/list"><spring:message code="item.header.list" /></a></td>
 	 			</sec:authorize>
 	 			
 	 			<!-- 회원 권한 메뉴 -->
@@ -45,7 +49,9 @@
 	 				<!-- 회원게시판 리스트 -->
           			<td><a href="/board/list">회원게시판 리스트</a></td>
           			<!-- 공지사항 --> 
-			   		<td><a href="/notice/list"><spring:message code="menu.notice.member" /></a></td> 
+			   		<td><a href="/notice/list"><spring:message code="menu.notice.member" /></a></td>
+			   		<!-- 상품리스트 --> 
+			        <td><a href="/item/list"><spring:message code="item.header.list" /></a></td>
 	 			</sec:authorize>
 	 		
 	 			

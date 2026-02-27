@@ -34,5 +34,10 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public String getPicture(Item item) throws Exception {
 		return mapper.getPicture(item);
+	}
+
+	@Override
+	public Item read(Item item) throws Exception {
+		return mapper.read(item);
 	} 
 }

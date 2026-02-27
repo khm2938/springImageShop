@@ -75,6 +75,16 @@ public class ItemController {
 		model.addAttribute("itemList", itemList);
 	}
 
+	// 상품 수정 페이지
+	@GetMapping("/modify")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String modifyForm(Item item, Model model) throws Exception {
+
+		model.addAttribute(itemService.read(item));
+
+		return "item/modify";
+	}
+
 	// 원본이미지 표시
 	@ResponseBody
 	@RequestMapping("/picture")
@@ -120,24 +130,34 @@ public class ItemController {
 		return null;
 	}
 
-	// 미리보기 이미지 표시
+	// 썸네일 미리보기 이미지 표시
 	@ResponseBody
 	@RequestMapping("/display")
 	public ResponseEntity<byte[]> displayFile(Item item) throws Exception {
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
+		// 썸네일 이미지파일명을 DB로부터 가져온다 : b26b867d-458d-4738-bf3c-75229c527a3d_kdj2.jpg
 		String fileName = itemService.getPreview(item);
 		try {
+			// 확장자명(jpg)을 가져온다
 			String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
 
+			// jpg 미디어타입을 리턴받는다 MediaType.IMAGE_JPEG;
 			MediaType mType = getMediaType(formatName);
+
+			// HttpHeaders는 서버가 브라우저에게 정보를 담아서 보내주는 객체
 			HttpHeaders headers = new HttpHeaders();
+
+			// 파일을 읽는다. InputStream(바이트 단위로 읽는다)
+			// D:/upload/b26b867d-458d-4738-bf3c-75229c527a3d_kdj2.jpg 위치를 찾아서 파일을
+			// inputStream 읽는다.
 			in = new FileInputStream(uploadPath + File.separator + fileName);
 
 			if (mType != null) {
+				// httpHeader는 서버가 브라우저에게 정보를 담아서 보내주는 객체에 미디어타입을 셋팅
 				headers.setContentType(mType);
 			}
-
+			// json방식으로 전송
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,6 +165,7 @@ public class ItemController {
 		} finally {
 			in.close();
 		}
+		// 웹브라우저에게 바이트단위로 이미지를 전송
 		return entity;
 	}
 
