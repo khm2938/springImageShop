@@ -1,79 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.BoardCommentMapper">
-	<!-- 검색 조건을 나타내는 쿼리 조각 -->
-	<sql id="search">
-		<if test="searchType != null">
-			<if test="searchType == 'ct'.toString()">
-				AND content LIKE CONCAT('%', CONCAT(#{keyword}, '%'))
-			</if>
-			<if test="searchType == 'cm'.toString()">
-				AND commenter LIKE CONCAT('%', CONCAT(#{keyword}, '%'))
-			</if>
-			<if test="searchType == 'ctcm'.toString()">
-				AND (content LIKE CONCAT('%', CONCAT(#{keyword}, '%'))
-				OR commenter LIKE CONCAT('%',CONCAT( #{keyword}, '%')))
-			</if>
-		</if>
-	</sql>
-	<sql id="total_list">
-		<if test="searchType == null">
-			and rnum between #{sizePerPage}*#{page}-9 and #{sizePerPage}*#{page}
-		</if>
-	</sql>
 	
-	<!-- 검색 조건 추가 -->
-	<select id="count" resultType="int"> 
-		<![CDATA[ 
-			SELECT count(board_no) 
-			FROM BOARD_COMMENT
-			WHERE board_no > 0 
-		]]> 
-		<include refid="search"></include> 
-	</select> 
+	<!-- 특정 게시글의 댓글 목록 -->
+	<select id="listByBoardNo" resultType="com.project.domain.BoardComment">
+    	SELECT comment_no, board_no, commenter, content, reg_date
+    	FROM BOARD_COMMENT
+    	WHERE BOARD_NO = #{boardNo}
+    	ORDER BY COMMENT_NO ASC
+ 	</select>
 	
 	<!-- 댓글 등록 처리 -->
 	<insert id="register">
-		INSERT INTO BOARD_COMMENT(comment_no, board_no, commenter, content)
-		VALUES(BOARD_COMMENT_SEQ.NEXTVAL, #{board_no} ,#{commenter}, #{content})
+		INSERT INTO BOARD_COMMENT(comment_no, board_no, commenter, content, reg_date)
+		VALUES(BOARD_COMMENT_SEQ.NEXTVAL, #{boardNo} ,#{commenter}, #{content}, SYSDATE)
 	</insert>
-
-	<!-- 게시글 목록 조회(페이징처리된) -->
-	<select id="list" resultType="Board">
-    <![CDATA[
-    SELECT board_no, title, content, writer, reg_date
-    FROM ( SELECT board_no, title, content, writer, reg_date, rownum rnum
-          FROM ( SELECT board_no, title, content, writer, reg_date FROM board  WHERE board_no > 0
-    ]]>
-                 <include refid="search"/>
-                  ORDER BY board_no DESC
-                )
-          )
-    <![CDATA[
-     WHERE board_no > 0 
-    ]]>
-     <include refid="total_list"/>
-    </select>
-
-	<!-- 댓글 상세 조회 -->
-	<select id="read" resultType="BoardComment">
-		SELECT board_no, comment_no, content, commenter, reg_date
-		FROM BOARD_COMMENT
-		WHERE comment_no = #{commentNo}
-	</select>
 
 	<!-- 댓글 수정 처리 -->
 	<update id="modify">
 		UPDATE BOARD_COMMENT
 		SET content =#{content}
 		WHERE comment_no = #{commentNo}
+		AND commenter = #{commenter}
 	</update>
 
-	<!-- 댓글 삭제 처리 -->
+	<!-- 댓글 삭제 처리(작성자만) -->
 	<delete id="remove">
 		DELETE FROM BOARD_COMMENT
 		WHERE comment_no = #{commentNo} 
 		AND commenter = #{commenter}
+	</delete>
+	
+	<!-- 댓글 삭제 처리 (관리자: 작성자 조건 없음) -->
+	<delete id="removeAdmin">
+  		DELETE FROM BOARD_COMMENT
+ 		WHERE comment_no = #{commentNo}
 	</delete>
 
 </mapper>

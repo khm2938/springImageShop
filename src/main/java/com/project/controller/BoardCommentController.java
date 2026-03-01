@@ -1,15 +1,20 @@
 package com.project.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.common.domain.PageRequest;
 import com.project.common.security.domain.CustomUser;
 import com.project.domain.Board;
 import com.project.domain.BoardComment;
@@ -45,32 +50,62 @@ public class BoardCommentController {
 	// 댓글 등록 처리
 	@PostMapping("/register")
 	@PreAuthorize("hasRole('ROLE_MEMBER')")
-	public String register(BoardComment comment, Authentication authentication, RedirectAttributes rttr) throws Exception {
-		
+	public String register(BoardComment comment, Authentication authentication, RedirectAttributes rttr)
+			throws Exception {
+
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
-		Member member = customUser.getMember();
-		
-		comment.setCommenter(member.getUserId());
-		
+
+		comment.setCommenter(customUser.getUsername());
+
 		int count = commentService.register(comment);
+		rttr.addFlashAttribute("msg", count != 0 ? "SUCCESS" : "FAIL");
+
+		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
+	}
+
+	// 댓글 수정 처리
+	@PostMapping("/modify")
+	@PreAuthorize("hasRole('ROLE_MEMBER')")
+	public String modify(BoardComment comment, Authentication authentication, RedirectAttributes rttr)
+			throws Exception {
+
+		CustomUser customUser = (CustomUser) authentication.getPrincipal();
+		comment.setCommenter(customUser.getUsername());
+
+		int count = commentService.modify(comment);
+		rttr.addFlashAttribute("msg", count != 0 ? "SUCCESS" : "FAIL");
+
+		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
+	}
+
+	// 댓글 삭제 처리
+	@PostMapping("/remove")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
+	public String remove(BoardComment comment, Authentication authentication, RedirectAttributes rttr) throws Exception {
+
+		CustomUser customUser = (CustomUser) authentication.getPrincipal();
+		String loginId = customUser.getUsername();
+
+		boolean isAdmin = false;
+
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			if (auth.getAuthority().equals("ROLE_ADMIN")) {
+				isAdmin = true;
+				break;
+			}
+		}
+
+		int count;
+		
+		if (isAdmin) {
+			count = commentService.removeAdmin(comment);
+		} else {
+			comment.setCommenter(loginId);
+			count = commentService.remove(comment);
+		}
 
 		rttr.addFlashAttribute("msg", count != 0 ? "SUCCESS" : "FAIL");
-		
 		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
