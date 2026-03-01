@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -25,11 +27,18 @@
 		<h2>
 			<spring:message code="board.header.read" />
 		</h2>
+
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal" var="principal" />
+			<sec:authentication property="principal.username" var="loginId" />
+		</sec:authorize>
+
 		<form:form modelAttribute="board">
 			<form:hidden path="boardNo" />
-			<!-- 현재 페이지 번호와 페이징 크기를 숨겨진 필드 요소를 사용하여 전달한다. --> 
-			<input type="hidden" id="page" name="page" value="${pgrq.page}"> 
-			<input type="hidden" id="sizePerPage" name="sizePerPage" value="${pgrq.sizePerPage}">
+			<!-- 현재 페이지 번호와 페이징 크기를 숨겨진 필드 요소를 사용하여 전달한다. -->
+			<input type="hidden" id="page" name="page" value="${pgrq.page}">
+			<input type="hidden" id="sizePerPage" name="sizePerPage"
+				value="${pgrq.sizePerPage}">
 			<table>
 				<tr>
 					<td><spring:message code="board.title" /></td>
@@ -51,7 +60,6 @@
 
 		<div>
 			<!-- 사용자정보를 가져오기 -->
-			<sec:authentication property="principal" var="principal"/>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<button type="button" id="btnEdit">
 					<spring:message code="action.edit" />
@@ -60,9 +68,9 @@
 					<spring:message code="action.remove" />
 				</button>
 			</sec:authorize>
-			
+
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
-				<c:if test="${principal.username eq board.writer}">
+				<c:if test="${loginId eq board.writer}">
 					<button type="button" id="btnEdit">
 						<spring:message code="action.edit" />
 					</button>
@@ -71,41 +79,150 @@
 					</button>
 				</c:if>
 			</sec:authorize>
-			
+
 			<button type="button" id="btnList">
 				<spring:message code="action.list" />
 			</button>
 		</div>
 	</div>
 
+	<c:if test="${not empty commentList}">
+		<hr />
+		<h3>댓글</h3>
+		<table class="comment-table">
+			<tbody>
+				<c:forEach items="${commentList}" var="c">
+					<tr>
+						<td class="col-commenter">${c.commenter}</td>
+						<td class="col-date"><fmt:formatDate
+								pattern="yyyy-MM-dd HH:mm" value="${c.regDate}" /></td>
+
+						<td style="text-align: right;">
+							<!-- 삭제 버튼 (관리자 권한) --> 
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<form action="<c:url value='/comment/remove'/>" method="post"
+									style="display: inline;">
+									<input type="hidden" name="commentNo" value="${c.commentNo}" />
+									<input type="hidden" name="boardNo" value="${board.boardNo}" />
+									<button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+								</form>
+							</sec:authorize> 
+							<!-- 삭제 버튼 (작성자 권한) --> 
+							<sec:authorize access="hasRole('ROLE_MEMBER') and !hasRole('ROLE_ADMIN')">
+								<c:if test="${loginId == c.commenter}">
+									<c:choose>
+										<c:when test="${editCommentNo == c.commentNo}">
+											<a href="<c:url value='/board/read?boardNo=${board.boardNo}'/>">취소</a>
+										</c:when>
+										<c:otherwise>
+											<a href="<c:url value='/board/read?boardNo=${board.boardNo}&editCommentNo=${c.commentNo}'/>">수정</a>
+										</c:otherwise>
+									</c:choose>
+
+									<form action="<c:url value='/comment/remove'/>" method="post"
+										style="display: inline;">
+										<input type="hidden" name="commentNo" value="${c.commentNo}" />
+										<input type="hidden" name="boardNo" value="${board.boardNo}" />
+										<button type="submit"
+											onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+									</form>
+
+								</c:if>
+							</sec:authorize>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td class="col-content" colspan="3"><c:choose>
+								<c:when test="${editCommentNo == c.commentNo}">
+									<form action="<c:url value='/comment/modify'/>" method="post"
+										style="margin: 0;">
+										<input type="hidden" name="boardNo" value="${board.boardNo}" />
+										<input type="hidden" name="commentNo" value="${c.commentNo}" />
+										<textarea name="content" rows="3" style="width: 100%;"
+											required>${c.content}</textarea>
+										<button type="submit">저장</button>
+									</form>
+								</c:when>
+								<c:otherwise>
+                					${c.content}
+              					</c:otherwise>
+							</c:choose></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</c:if>
+
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')">
+		<hr />
+		<h3>댓글 작성</h3>
+
+		<form id="comment" action="<c:url value='/comment/register'/>"
+			method="post">
+			<input type="hidden" name="boardNo" value="${board.boardNo}" />
+
+			<div style="display: flex; gap: 10px; align-items: center;">
+				<div style="min-width: 120px;">
+					<input type="text" value="${loginId}" readonly />
+				</div>
+
+				<div style="flex: 1;">
+					<textarea name="content" rows="3" style="width: 100%;" required></textarea>
+				</div>
+
+				<div>
+					<button type="submit" id="btnRegister">
+						<spring:message code="action.register" />
+					</button>
+				</div>
+			</div>
+		</form>
+	</sec:authorize>
+
+	<sec:authorize access="!isAuthenticated()">
+		<p>댓글을 작성하려면 로그인하세요.</p>
+	</sec:authorize>
+
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 	<script>
-		$(document).ready(function() {
-			let formObj = $("#board");
+		$(document).ready(
+				function() {
 
-			$("#btnEdit").on("click", function() {
-				let boardNo = $("#boardNo").val();
-				// 현재 페이지 번호와 페이징 크기 
-       			let page = $("#page").val(); 
-        		let sizePerPage = $("#sizePerPage").val(); 
-				self.location = "/board/modify?page=" + page+ "&sizePerPage=" + sizePerPage+ "&boardNo=" + boardNo;
-			});
+					$("#btnList").on(
+							"click",
+							function() {
+								let page = $("#page").val();
+								let sizePerPage = $("#sizePerPage").val();
+								self.location = "/board/list?page=" + page
+										+ "&sizePerPage=" + sizePerPage;
+							});
 
-			$("#btnRemove").on("click", function() {
-				let boardNo = $("#boardNo").val();
-				let page = $("#page").val(); 
-        		let sizePerPage = $("#sizePerPage").val(); 
-        		self.location = "/board/remove?page=" + page+ "&sizePerPage=" + sizePerPage+ "&boardNo=" + boardNo;
-			});
+					$("#btnEdit").on(
+							"click",
+							function() {
+								let boardNo = $("input[name='boardNo']").val();
+								let page = $("#page").val();
+								let sizePerPage = $("#sizePerPage").val();
+								self.location = "/board/modify?boardNo="
+										+ boardNo + "&page=" + page
+										+ "&sizePerPage=" + sizePerPage;
+							});
 
-			$("#btnList").on("click", function() {
-				let page = $("#page").val(); 
-        		let sizePerPage = $("#sizePerPage").val(); 
-				self.location = "/board/list?page=" + page + "&sizePerPage=" + sizePerPage;
-			});
+					$("#btnRemove").on(
+							"click",
+							function() {
+								let boardNo = $("input[name='boardNo']").val();
+								let page = $("#page").val();
+								let sizePerPage = $("#sizePerPage").val();
+								self.location = "/board/remove?boardNo="
+										+ boardNo + "&page=" + page
+										+ "&sizePerPage=" + sizePerPage;
+							});
 
-		});
+				});
 	</script>
 </body>
 </html>

@@ -11,7 +11,7 @@ public interface BoardService {
 	public int register(Board board) throws Exception;
 	
 	// 게시글 목록 페이지 (페이징)
-		public List<Board> list(PageRequest pageRequest) throws Exception;
+	public List<Board> list(PageRequest pageRequest) throws Exception;
 	
 	// 게시글 상세 조회
 	public Board read(Board board) throws Exception;

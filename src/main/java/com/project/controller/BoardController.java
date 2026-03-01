@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.common.domain.CodeLabelValue;
@@ -20,6 +21,7 @@ import com.project.common.domain.Pagination;
 import com.project.common.security.domain.CustomUser;
 import com.project.domain.Board;
 import com.project.domain.Member;
+import com.project.service.BoardCommentService;
 import com.project.service.BoardService;
 
 @Controller
@@ -28,6 +30,8 @@ public class BoardController {
 
 	@Autowired
 	private BoardService service;
+	@Autowired
+	private BoardCommentService commentService;
 
 	// 게시글 등록 페이지
 	@GetMapping("/register")
@@ -90,8 +94,10 @@ public class BoardController {
 
 	// 게시글 상세 페이지
 	@GetMapping("/read")
-	public void read(Board board, @ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
+	public void read(Board board,  @RequestParam(value="editCommentNo", required=false) Integer editCommentNo , @ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
 		model.addAttribute(service.read(board));
+		model.addAttribute("commentList", commentService.listByBoardNo(board.getBoardNo()));
+		model.addAttribute("editCommentNo", editCommentNo);
 	}
 
 	// 게시글 수정 페이지
