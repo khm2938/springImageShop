@@ -113,22 +113,6 @@ public class ItemController {
 		return entity;
 	}
 
-	// 파일 확장자로 이미지 형식 확인
-	private MediaType getMediaType(String formatName) {
-		if (formatName != null) {
-			if (formatName.equals("JPG")) {
-				return MediaType.IMAGE_JPEG;
-			}
-			if (formatName.equals("GIF")) {
-				return MediaType.IMAGE_GIF;
-			}
-
-			if (formatName.equals("PNG")) {
-				return MediaType.IMAGE_PNG;
-			}
-		}
-		return null;
-	}
 
 	// 썸네일 미리보기 이미지 표시
 	@ResponseBody
