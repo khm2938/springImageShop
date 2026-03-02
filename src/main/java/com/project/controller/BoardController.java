@@ -2,8 +2,10 @@ package com.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,7 +34,9 @@ public class BoardController {
 	private BoardService service;
 	@Autowired
 	private BoardCommentService commentService;
-
+	@Autowired
+	private MessageSource messageSource;
+	
 	// 게시글 등록 페이지
 	@GetMapping("/register")
 	@PreAuthorize("hasRole('ROLE_MEMBER')")
@@ -63,7 +67,7 @@ public class BoardController {
 
 	// 게시글 목록 페이지
 	@GetMapping("/list")
-	public void list(@ModelAttribute("pgrq") PageRequest pageRequest, Model model) throws Exception {
+	public void list(@ModelAttribute("pgrq") PageRequest pageRequest, Model model, Locale locale) throws Exception {
 
 		if (pageRequest.getPage() == 0) {
 			pageRequest = new PageRequest();
@@ -81,13 +85,13 @@ public class BoardController {
 		
 		// 검색 유형의 코드명과 코드값을 정의한다. 
 		List<CodeLabelValue> searchTypeCodeValueList = new ArrayList<CodeLabelValue>(); 
-		searchTypeCodeValueList.add(new CodeLabelValue("n", "---")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("t", "Title")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("c", "Content")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("w", "Writer")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("tc", "Title OR Content")); 
-		searchTypeCodeValueList.add(new CodeLabelValue("cw", "Content OR Writer"));
-		searchTypeCodeValueList.add(new CodeLabelValue("tcw", "Title OR Content OR Writer"));
+		searchTypeCodeValueList.add(new CodeLabelValue("n", messageSource.getMessage("common.search.none", null, locale))); 
+		searchTypeCodeValueList.add(new CodeLabelValue("t", messageSource.getMessage("common.search.title", null, locale))); 
+		searchTypeCodeValueList.add(new CodeLabelValue("c", messageSource.getMessage("common.search.content", null, locale))); 
+		searchTypeCodeValueList.add(new CodeLabelValue("w", messageSource.getMessage("common.search.writer", null, locale))); 
+		searchTypeCodeValueList.add(new CodeLabelValue("tc", messageSource.getMessage("common.search.titleContent", null, locale))); 
+		searchTypeCodeValueList.add(new CodeLabelValue("cw", messageSource.getMessage("common.search.contentWriter", null, locale)));
+		searchTypeCodeValueList.add(new CodeLabelValue("tcw", messageSource.getMessage("common.search.all", null, locale)));
 		// 화면에 보여질 페이지 정보
 		model.addAttribute("searchTypeCodeValueList", searchTypeCodeValueList); 
 	}

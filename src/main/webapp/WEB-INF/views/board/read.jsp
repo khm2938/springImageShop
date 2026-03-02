@@ -23,10 +23,11 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 
-	<div align="center">
-		<h2>
-			<spring:message code="board.header.read" />
-		</h2>
+	<div class="board-read-wrap">
+		<div class="board-read-card">
+			<h2 class="board-read-title">
+				<spring:message code="board.header.read" />
+			</h2>
 
 		<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal" var="principal" />
@@ -39,7 +40,7 @@
 			<input type="hidden" id="page" name="page" value="${pgrq.page}">
 			<input type="hidden" id="sizePerPage" name="sizePerPage"
 				value="${pgrq.sizePerPage}">
-			<table>
+			<table class="board_table">
 				<tr>
 					<td><spring:message code="board.title" /></td>
 					<td><form:input path="title" readonly="true" /></td>
@@ -58,7 +59,7 @@
 			</table>
 		</form:form>
 
-		<div>
+		<div class="board-read-actions">
 			<!-- 사용자정보를 가져오기 -->
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<button type="button" id="btnEdit">
@@ -84,11 +85,12 @@
 				<spring:message code="action.list" />
 			</button>
 		</div>
+		</div>
 	</div>
 
 	<c:if test="${not empty commentList}">
 		<hr />
-		<h3>댓글</h3>
+		<h3 class="comment-title">댓글</h3>
 		<table class="comment-table">
 			<tbody>
 				<c:forEach items="${commentList}" var="c">
@@ -97,11 +99,10 @@
 						<td class="col-date"><fmt:formatDate
 								pattern="yyyy-MM-dd HH:mm" value="${c.regDate}" /></td>
 
-						<td style="text-align: right;">
+						<td class="comment-actions">
 							<!-- 삭제 버튼 (관리자 권한) --> 
 							<sec:authorize access="hasRole('ROLE_ADMIN')">
-								<form action="<c:url value='/comment/remove'/>" method="post"
-									style="display: inline;">
+								<form class="inline-form" action="<c:url value='/comment/remove'/>" method="post">
 									<input type="hidden" name="commentNo" value="${c.commentNo}" />
 									<input type="hidden" name="boardNo" value="${board.boardNo}" />
 									<button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
@@ -119,8 +120,7 @@
 										</c:otherwise>
 									</c:choose>
 
-									<form action="<c:url value='/comment/remove'/>" method="post"
-										style="display: inline;">
+								<form class="inline-form" action="<c:url value='/comment/remove'/>" method="post">
 										<input type="hidden" name="commentNo" value="${c.commentNo}" />
 										<input type="hidden" name="boardNo" value="${board.boardNo}" />
 										<button type="submit"
@@ -134,14 +134,12 @@
 					</tr>
 
 					<tr>
-						<td class="col-content" colspan="3"><c:choose>
+					<td class="col-content" colspan="3"><c:choose>
 								<c:when test="${editCommentNo == c.commentNo}">
-									<form action="<c:url value='/comment/modify'/>" method="post"
-										style="margin: 0;">
+								<form class="comment-edit-form" action="<c:url value='/comment/modify'/>" method="post">
 										<input type="hidden" name="boardNo" value="${board.boardNo}" />
 										<input type="hidden" name="commentNo" value="${c.commentNo}" />
-										<textarea name="content" rows="3" style="width: 100%;"
-											required>${c.content}</textarea>
+									<textarea class="comment-edit-text" name="content" rows="3" required>${c.content}</textarea>
 										<button type="submit">저장</button>
 									</form>
 								</c:when>
@@ -157,22 +155,20 @@
 
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')">
 		<hr />
-		<h3>댓글 작성</h3>
+		<h3 class="comment-title">댓글 작성</h3>
 
 		<form id="comment" action="<c:url value='/comment/register'/>"
 			method="post">
 			<input type="hidden" name="boardNo" value="${board.boardNo}" />
 
-			<div style="display: flex; gap: 10px; align-items: center;">
-				<div style="min-width: 120px;">
+			<div class="comment-write-row">
+				<div class="comment-writer">
 					<input type="text" value="${loginId}" readonly />
 				</div>
-
-				<div style="flex: 1;">
-					<textarea name="content" rows="3" style="width: 100%;" required></textarea>
+				<div class="comment-input">
+					<textarea class="comment-write-text" name="content" rows="3" required></textarea>
 				</div>
-
-				<div>
+				<div class="comment-submit">
 					<button type="submit" id="btnRegister">
 						<spring:message code="action.register" />
 					</button>

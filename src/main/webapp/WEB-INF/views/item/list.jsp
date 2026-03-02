@@ -1,123 +1,119 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Image Shop</title>
-
 <link rel="stylesheet" href="<c:url value='/css/common.css'/>">
-<link rel="stylesheet" href="<c:url value='/css/codegroup.css'/>">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-	<div class="notice-page">
-		<div class="notice-card">
-			<div class="notice-head">
-				<h2 class="notice-title">
+	<div class="container board-page">
+		<div class="card board-card">
+			<div class="board-head">
+				<h2 class="board-title">
 					<spring:message code="item.header.list" />
 				</h2>
 
+				<div class="board-search">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<a class="btn btn-primary" href="register">
+							<spring:message code="action.new" />
+						</a>
+					</sec:authorize>
+				</div>
+			</div>
 
+			<div class="board-table-wrap">
+				<table class="board-table">
+					<thead>
+						<tr>
+							<th class="col-no"><spring:message code="item.itemId" /></th>
+							<th class="col-title"><spring:message code="item.itemName" /></th>
+							<th class="col-price"><spring:message code="item.itemPrice" /></th>
+							
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<th></th>
+         					    <th></th>
+							</sec:authorize>
 
-				<%-- 검색 폼 
-				<form:form modelAttribute="pgrq" method="get" action="/notice/list${pgrq.toUriStringByPage()}"> 
-				<form:select path="searchType" items="${searchTypeCodeValueList}" 
-					itemValue="value" itemLabel="label" /> 
-				<form:input path="keyword" /> 
-				<button id='searchBtn'>
-					<spring:message code="action.search" />
-				</button> 
-				</form:form>
-				--%>
-
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<a href="register"><spring:message code="action.new" /></a>
-				</sec:authorize>
-
-				<table border="1">
-					<tr>
-						<th align="center" width="80"><spring:message code="item.itemId" /></th>
-						<th align="center" width="320"><spring:message code="item.itemName" /></th>
-						<th align="center" width="100"><spring:message code="item.itemPrice" /></th>
-								
-
-						<sec:authorize access="hasRole('ROLE_ADMIN')">
-							<th align="center" width="80"><spring:message
-									code="item.edit" /></th>
-							<th align="center" width="80"><spring:message
-									code="item.remove" /></th>
-						</sec:authorize>
-
-						<sec:authorize access="hasRole('ROLE_MEMBER')">
-							<th align="center" width="80"><spring:message
-									code="item.read" /></th>
-						</sec:authorize>
-					</tr>
-
-					<c:choose>
-						<c:when test="${empty itemList}">
-							<tr>
-								<sec:authorize access="!hasRole('ROLE_ADMIN') AND !hasRole('ROLE_MEMBER')"></td>
-									<td colspan="3"><spring:message code="common.listEmpty" />
-								</sec:authorize>
-								<sec:authorize access="hasRole('ROLE_ADMIN')">
-									<td colspan="5"><spring:message code="common.listEmpty" /></td>
-								</sec:authorize>
-								<sec:authorize access="hasRole('ROLE_MEMBER')">
-									<td colspan="4"><spring:message code="common.listEmpty" />
-								</sec:authorize>
-							</tr>
-						</c:when>
-						<c:otherwise>
-							<c:forEach items="${itemList}" var="item">
+							<sec:authorize access="hasRole('ROLE_MEMBER') and !hasRole('ROLE_ADMIN')">
+								<th><spring:message code="item.read" /></th>
+							</sec:authorize>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${empty itemList}">
 								<tr>
-									<td align="center">${item.itemId}</td>
-									<td align="left">${item.itemName}</td>
-									<td align="right">${item.price}원</td>
-									<sec:authorize access="hasRole('ROLE_ADMIN')">
-										<td align="center">
-											<a href="modify?itemId=${item.itemId}"><spring:message code="item.edit" /></a></td>
-													
-										<td align="center">
-											<a href="remove?itemId=${item.itemId}"><spring:message code="item.remove" /></a></td>
-									</sec:authorize>
-
-									<sec:authorize access="hasRole('ROLE_MEMBER')">
-										<td align="center">
-											<a href="read?itemId=${item.itemId}"><spring:message code="item.read" /></a></td>
-									</sec:authorize>
-
+									<c:set var="colCount" value="3" />
+									<sec:authorize access="hasRole('ROLE_ADMIN')"><c:set var="colCount" value="5" /></sec:authorize>
+									<sec:authorize access="hasRole('ROLE_MEMBER') and !hasRole('ROLE_ADMIN')"><c:set var="colCount" value="4" /></sec:authorize>
+									
+									<td colspan="${colCount}" class="empty">
+										<spring:message code="common.listEmpty" />
+									</td>
 								</tr>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${itemList}" var="item">
+									<tr>
+										<td class="col-no">${item.itemId}</td>
+										<td class="col-title">
+											<span class="item-name-text">${item.itemName}</span>
+										</td>
+										<td class="col-price">
+											<fmt:formatNumber value="${item.price}" type="number"/>원
+										</td>
+										
+										<sec:authorize access="hasRole('ROLE_ADMIN')">
+											<td class="col-action">
+												<a href="modify?itemId=${item.itemId}" class="btn btn-table-action">
+													<spring:message code="item.edit" />
+												</a>
+											</td>
+											<td class="col-action">
+												<a href="remove?itemId=${item.itemId}" class="btn btn-table-action btn-table-remove">
+													<spring:message code="item.remove" />
+												</a>
+											</td>
+										</sec:authorize>
+
+										<sec:authorize access="hasRole('ROLE_MEMBER') and !hasRole('ROLE_ADMIN')">
+											<td>
+												<a href="read?itemId=${item.itemId}" class="btn btn-primary btn-table-action">
+													<spring:message code="item.read" />
+												</a>
+											</td>
+										</sec:authorize>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
 				</table>
 			</div>
 		</div>
 
-		<!-- 페이징 네비 -->
+	</div>
 
-		<div class="footer-card">
-			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-		</div>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
-
-		<script>
-			var result = "${msg}";
-			if (result === "SUCCESS") {
-				alert("<spring:message code='common.processSuccess' />");
-			} else if (result === "FAIL") {
-				alert("요청처리 실패");
-			}
-		</script>
+	<script>
+		var result = "${msg}";
+		if (result === "SUCCESS") {
+			alert("<spring:message code='common.processSuccess' />");
+		} else if (result === "FAIL") {
+			alert("요청처리 실패");
+		}
+	</script>
 </body>
 </html>

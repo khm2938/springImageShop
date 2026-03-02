@@ -26,9 +26,9 @@
 		<div class="login-card">
 
 			<div class="login-logo">
-				<a class="brand" href="<c:url value='/'/>"> <span
-					class="brand-mark">IS</span> <span class="brand-text">Image
-						Shop</span>
+				<a class="brand" href="<c:url value='/'/>"> 
+					<span class="brand-mark">IS</span> 
+					<span class="brand-text">Image Shop</span>
 				</a>
 			</div>
 
