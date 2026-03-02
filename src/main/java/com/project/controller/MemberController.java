@@ -93,7 +93,7 @@ public class MemberController {
 	}
 
 	// 수정 페이지
-	@PostMapping("/modify")
+	@GetMapping("/modify")
 	public void modifyForm(Member member, Model model) throws Exception {
 		// 직업코드 목록을 조회하여 뷰에 전달
 		String groupCode = "A00";
