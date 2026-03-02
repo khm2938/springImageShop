@@ -23,14 +23,13 @@
 
 	<!-- 등록 처리 -->
 	<insert id="register">
-		INSERT INTO member(user_no, user_id, user_pw,
-		user_name, job)
-		VALUES(member_seq.NEXTVAL,#{userId},#{userPw},#{userName},#{job})
+		INSERT INTO member(user_no, user_id, user_pw, user_name, job)
+		VALUES(member_seq.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{job})
 	</insert>
 
 	<!-- 권한 생성 -->
 	<insert id="createAuth">
-		INSERT INTO member_auth(user_no,auth)
+		INSERT INTO member_auth(user_no, auth)
 		VALUES(member_seq.CURRVAL,#{auth})
 	</insert>
 

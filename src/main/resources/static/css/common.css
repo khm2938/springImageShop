@@ -1,7 +1,6 @@
 /* =========================
    Base (공통)
    - 전체 페이지의 기본 레이아웃/타이포
-   - 필요하면 페이지별 CSS(user.css 등)에서 덮어쓰기
 ========================= */
 :root{
   --page-max: 1100px;
@@ -267,7 +266,55 @@ hr{
 }
 
 /* =========================
-   Board List (list.jsp)
+   footer
+========================= */
+.footer-card{
+  width: 100%;
+  padding: 22px;
+  margin: 0 0 40px;
+}
+
+
+/* =========================
+   메시지 (message)
+========================= */
+/* 에러 메시지 공통 스타일 */
+.error-message {
+    color: #ef4444; 
+    font-size: 12px; 
+    margin: 5px 0 0 5px; 
+    display: block; 
+    font-weight: 700;
+}
+
+
+
+/* =========================
+   Code Detail List (코드 상세 관리)
+========================= */
+
+/* 코드 상세 */
+.codedetail-table .col-group { 
+	width: 150px; 
+	text-align: center; 
+}
+
+.codedetail-table .col-val { 
+	width: 120px; 
+	text-align: center;
+}
+
+.codedetail-table .col-name { 
+	font-weight: 700; 
+}
+
+.codedetail-table .col-seq { 
+	width: 100px; 
+	text-align: center; 
+}
+
+/* =========================
+   회원게시판 (Board List)
 ========================= */
 .board-page{
   margin: 24px auto 0;
@@ -333,14 +380,13 @@ hr{
 }
 .board-search-btn:hover{ background: var(--primary-bd); }
 
-/* 테이블 래퍼: 가로 넘침 방지 */
 .board-table-wrap{
   overflow-x: auto;
   border-radius: var(--radius-sm);
   border: 1px solid var(--line);
 }
 
-/* 테이블 */
+/* 회원게시판 테이블 */
 .board-table{
   width: 100%;
   border-collapse: collapse;
@@ -390,17 +436,9 @@ hr{
   font-weight: 700;
 }
 
-/* footer */
-.footer-card{
-  width: 100%;
-  padding: 22px;
-  margin: 0 0 40px;
-}
 
-/* =========================
-   Board table alignment fix
-   - th/td 정렬 불일치 해결
-========================= */
+ 
+/* Board table alignment fix */
 .board-table th,
 .board-table td{
   vertical-align: middle;
@@ -418,16 +456,16 @@ hr{
 .board-table th.col-date,
 .board-table td.col-date{ text-align: center; }
 
-/* =========================
-   Board Register 
-========================= */
+/* Board Register */
 .board-register-wrap{
+  max-width: var(--page-max); 
   margin: 40px auto;
+  width: 100%;
 }
 
 .board-register-card{
   width: 100%;
-  padding: 22px;
+  padding: 30px;
 }
 
 .board-register-card h2{
@@ -439,7 +477,7 @@ hr{
 
 .board_table{
   width: 100%;
-  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .board_table tr + tr{
@@ -460,8 +498,11 @@ hr{
 }
 
 .board_table input[type="text"],
+.board_table input[type="password"],
+.board_table select,
 .board_table textarea{
-  width: 100%;
+  width: 100% !important;
+  box-sizing: border-box;
   border: 1px solid #d1d5db;
   border-radius: 10px;
   padding: 10px 12px;
@@ -496,11 +537,24 @@ hr{
 }
 
 .board-register-actions{
-  margin-top: 16px;
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 25px;
+  padding: 0;
 }
+
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: auto; 
+}
+
+.btn {
+    min-width: 80px; 
+}
+
 
 .board-register-actions input[type="submit"],
 .board-register-actions input[type="button"],
@@ -538,7 +592,6 @@ hr{
 
 /* =========================
    Board Read (read.jsp)
-   - table 기반 입력 폼은 유지하되, 감싸는 레이아웃은 flex/card로 정리
 ========================= */
 .board-read-wrap{
   margin: 40px auto;
@@ -584,9 +637,7 @@ hr{
   transform: translateY(-1px);
 }
 
-/* =========================
-   페이징 네비게이션
-========================= */
+/* 페이징 네비게이션 */
 .pagination {
   display: flex;
   justify-content: center;
@@ -596,196 +647,167 @@ hr{
   width: 100%;
 }
 
-/* =========================
-   Comment (read.jsp)
-========================= */
-.comment-title{
-  margin: 18px auto 10px;
-  font-size: 18px;
-  letter-spacing: -0.2px;
-  color: var(--title);
+/* ============================================================
+   [최종 교정본] 댓글 리스트 및 작성 폼 (Flex 전용)
+============================================================ */
+
+/* 1. 댓글 공통 카드 스타일 */
+.comment-list-card, .comment-write-card {
+    margin-top: 24px;
+    padding: 20px !important;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
 }
 
-.comment-table{
-  width: 100%;
-  margin: 0 auto 18px;
-  border-collapse: collapse;
+.comment-card-title {
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--title);
 }
 
-.comment-table tbody tr{ background: #fff; }
+/* 2. 댓글 리스트 아이템 (DIV 기반) */
+.comment-item {
+    padding: 16px 5px;
+    border-bottom: 1.5px solid #e2e8f0; 
+    transition: background-color 0.2s;
+}
+.comment-item:last-child { border-bottom: none; }
 
-.comment-table td{
-  border-bottom: 1px solid var(--line);
-  padding: 10px 10px;
-  vertical-align: top;
+/* [중요] 상단 정보 영역: 좌측(닉네임+날짜) / 우측(버튼) 분리 */
+.comment-header-flex {
+    display: flex !important;
+    justify-content: space-between !important; /* 양 끝으로 밀어냄 */
+    align-items: center !important;
+    margin-bottom: 8px;
 }
 
-.comment-table .col-commenter{
-  width: 140px;
-  font-weight: 900;
-  color: var(--muted-2);
-  white-space: nowrap;
+/* 좌측 정보: 닉네임과 날짜 나란히 배치 */
+.comment-user-info {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
 }
 
-.comment-table .col-date{
-  width: 170px;
-  font-size: 12px;
-  color: var(--muted);
-  white-space: nowrap;
+.col-commenter {
+    font-weight: 800;
+    color: var(--title);
+    font-size: 15px;
 }
 
-.comment-actions{
-  text-align: right;
-  white-space: nowrap;
+.col-date {
+    font-size: 12px;
+    color: var(--muted);
 }
 
-.inline-form{ display: inline; }
-
-.comment-actions a,
-.comment-actions button{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 34px;
-  padding: 0 10px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  background: #fff;
-  color: var(--title);
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  text-decoration: none;
+/* 우측 버튼: 크기 고정 및 정렬 */
+.comment-actions {
+    display: flex !important;
+    gap: 6px;
 }
 
-.comment-actions a:hover,
-.comment-actions button:hover{ background: #f3f4f6; }
-
-.col-content{
-  padding-top: 6px;
-  padding-bottom: 14px;
-  line-height: 1.6;
-  color: var(--title);
+.comment-actions button {
+    width: 52px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    font-size: 12px !important;
+    font-weight: 800;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--title);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
 }
 
-.comment-edit-form{
-  margin: 0;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
+.comment-actions button:hover {
+    border-color: #9ca3af;
+    background: #f9fafb;
 }
 
-.comment-edit-text{
-  flex: 1;
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
-  resize: vertical;
-  min-height: 90px;
-  line-height: 1.6;
+.comment-actions .btn-remove-reply {
+    color: #ef4444 !important;
+    border-color: #fecaca !important;
 }
 
-.comment-edit-form button{
-  height: 40px;
-  padding: 0 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--primary-bd);
-  background: var(--primary-bg);
-  color: var(--primary);
-  font-weight: 900;
-  cursor: pointer;
-}
-.comment-edit-form button:hover{ background: var(--primary-bd); }
-
-.comment-write-row{
-  margin: 0 auto 30px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
+.comment-actions .btn-remove-reply:hover {
+    background: #fef2f2;
 }
 
-.comment-writer{ min-width: 120px; }
-.comment-writer input{
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
-  background: #f9fafb;
-  color: var(--muted);
+/* 댓글 내용 영역 */
+.comment-body-content {
+    font-size: 14px;
+    color: var(--muted-2);
+    line-height: 1.6;
+    padding-left: 2px;
 }
 
-.comment-input{ flex: 1; }
-.comment-write-text{
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
-  resize: vertical;
-  min-height: 90px;
-  line-height: 1.6;
+/* 3. 댓글 작성 폼 (가로 배치 및 높이 일치) */
+.comment-write-row {
+    display: flex !important;
+    gap: 12px !important;
+    align-items: stretch !important; /* 높이 자동 일치 */
 }
 
-.comment-submit button{
-  height: 44px;
-  padding: 0 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--primary-bd);
-  background: var(--primary-bg);
-  color: var(--primary);
-  font-weight: 900;
-  cursor: pointer;
-}
-.comment-submit button:hover{ background: var(--primary-bd); }
-
-
-/* =========================
-   Item List (상품 목록 전용)
-========================= */
-
-/* 가격 컬럼 */
-.board-table .col-price {
-  text-align: right;
-  color: var(--primary);
-  font-weight: 800;
-  padding-right: 40px;
-  white-space: nowrap;
+.comment-writer-box {
+    width: 100px;
+    flex-shrink: 0;
 }
 
-/* 상품명 텍스트 */
-.item-name-text {
-  font-weight: 800;
-  color: var(--title);
+.comment-writer-box input {
+    width: 100% !important;
+    height: 100% !important;
+    text-align: center;
+    font-weight: 800;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--line-soft);
+    color: var(--muted-2);
+    outline: none;
 }
 
-.board-table td.col-action {
-  text-align: center;
-  width: 1%;
-  white-space: nowrap;
-  padding: 12px 2px;
+.comment-input-box {
+    flex: 1;
 }
 
-.btn-table-action {
-  height: 30px !important;
-  padding: 0 8px !important;
-  font-size: 12px !important;
-  font-weight: 700;
-  border-radius: 8px;
-  margin: 0 1px;
+.comment-write-text {
+    width: 100% !important;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    resize: none;
+    font-size: 14px;
+    display: block;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
-/* 삭제 버튼 스타일 */
-.btn-table-remove {
-  color: #ef4444 !important;
-  border-color: #fecaca !important;
-  background: #fff;
+.comment-write-text:focus {
+    border-color: var(--primary);
 }
-.btn-table-remove:hover {
-  background: #fef2f2 !important;
-  border-color: #ef4444 !important;
+
+.comment-submit-box {
+    flex-shrink: 0;
+}
+
+.comment-submit-box button {
+    height: 100% !important;
+    padding: 0 20px;
+    font-weight: 800;
+    border-radius: 10px;
+    background: var(--primary-bg);
+    color: var(--primary);
+    border: 1px solid var(--primary-bd);
+    cursor: pointer;
+}
+
+.comment-submit-box button:hover {
+    background: var(--primary-bd);
 }
 
 /* =========================
@@ -901,6 +923,137 @@ hr{
   text-align: center;
   color: var(--muted);
 }
+
+/* =========================
+   회원가입 (user/register)
+========================= */
+/* 회원가입 제목 */
+.register-title {
+    text-align: center; 
+    margin-bottom: 25px; 
+    font-weight: 800; 
+    color: var(--title);
+}
+
+/* 입력 그룹 간격 */
+.input-group {
+    margin-bottom: 15px;
+}
+
+/* 직업 선택 그룹 */
+.job-group {
+    margin-bottom: 20px;
+}
+
+.job-label {
+    font-size: 13px; 
+    font-weight: 800; 
+    color: var(--muted-2); 
+    margin-left: 5px; 
+    display: block; 
+    margin-bottom: 5px;
+}
+
+/* 로그인 버튼 하단 여백 */
+#btnRegister {
+    margin-bottom: 10px;
+}
+
+/* 목록 버튼 (흰색 배경 스타일) */
+.btn-list-alt {
+    background: #fff !important; 
+    color: var(--primary) !important; 
+    border: 1px solid var(--primary-bd) !important;
+}
+
+/* 하단 로그인 링크 */
+.login-link-wrap {
+    text-align: center; 
+    margin-top: 20px;
+}
+
+.login-link {
+    font-size: 14px; 
+    color: var(--muted); 
+    text-decoration: none; 
+    font-weight: 700;
+}
+
+.login-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+/* =========================
+   회원 상세보기 (User read)
+========================= */
+
+/* 1. 전체를 감싸는 카드 컨테이너 (중앙 정렬) */
+.user-read-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* 2. 상세페이지 전용 테이블 스타일 */
+.user_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+}
+
+.user_table td {
+    padding: 15px 10px;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.user_table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 항목 이름(라벨) 열 */
+.user_table td:first-child {
+    width: 140px;
+    font-weight: 800;
+    color: var(--muted-2);
+}
+
+/* 입력창 & 셀렉트박스 공통 (읽기전용) */
+.user_table input[readonly],
+.user_table select:disabled {
+    width: 100%;
+    max-width: 320px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background-color: #f8fafc !important; /* 네가 찾은 그 색상! */
+    border-color: #e2e8f0 !important;
+    color: #64748b !important;
+    cursor: default;
+    opacity: 1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* 3. 하단 버튼 그룹 정렬 */
+.user-footer-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+/* 버튼별 포인트 컬러 (기존 .btn 스타일 활용) */
+#btnEdit { background: var(--primary-bg); color: var(--primary); border-color: var(--primary-bd); }
+#btnRemove { background: #fff; color: #ef4444; border-color: #fecaca; }
+#btnList { background: #fff; color: var(--muted); border-color: var(--line); }
+
 
 
 
