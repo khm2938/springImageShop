@@ -35,6 +35,9 @@
 			<a class="menu-link" href="/board/list">회원게시판 리스트</a>
 			<a class="menu-link" href="/notice/list"><spring:message code="menu.notice.member" /></a>
 			<a class="menu-link" href="/item/list"><spring:message code="item.header.list" /></a>
+			<!-- 코인 충전과 충전 내역 --> 
+			<a class="menu-link" href="/coin/charge"><spring:message code="menu.coin.charge" /></a>
+			<a class="menu-link" href="/coin/list"><spring:message code="menu.coin.list" /></a>
 		</sec:authorize>
 
 		<!-- 유저/로그아웃 (오른쪽에 붙이기) -->

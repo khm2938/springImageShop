@@ -99,7 +99,7 @@
                                         </form>
                                     </sec:authorize>
                                     <sec:authorize access="hasRole('ROLE_MEMBER') and !hasRole('ROLE_ADMIN')">
-                                        <c:if test="${loginId == c.commenter}">
+                                        <c:if test="${loginId eq c.commenter}">
                                             <c:choose>
                                                 <c:when test="${editCommentNo == c.commentNo}">
                                                     <button type="button" onclick="location.href='/board/read?boardNo=${board.boardNo}'">취소</button>

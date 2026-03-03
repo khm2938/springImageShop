@@ -880,6 +880,37 @@ hr{
 }
 
 
+
+
+/* =========================
+   상품 목록(Item List)
+========================= */
+.col-action {
+    width: 80px;
+    text-align: center;
+}
+
+.btn-table-action {
+    display: inline-flex !important;
+    height: 30px !important;
+    min-width: 60px !important;
+    padding: 0 10px !important;
+    font-size: 12px !important;
+    font-weight: 800;
+}
+
+/* 삭제 버튼 전용 (빨간색) */
+.btn-table-remove {
+    color: #ef4444 !important;
+    border-color: #fecaca !important;
+}
+
+.btn-table-remove:hover {
+    background: #fef2f2 !important;
+    border-color: #ef4444 !important;
+}
+
+
 /* =========================
    User List (회원 관리 전용)
 ========================= */
