@@ -18,9 +18,9 @@
 
     <div class="container board-page">
         
-        <%-- 1. 게시글 상세 카드 --%>
+        <%-- 게시글 상세 카드 --%>
         <div class="board-read-wrap">
-            <div class="card board-register-card"> <%-- 일관성을 위해 register-card 클래스 활용 --%>
+            <div class="card board-register-card">
                 <div class="board-head">
                     <h2 class="board-title">
                         <spring:message code="board.header.read" />
@@ -60,13 +60,13 @@
                     <div class="admin-actions">
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <button type="button" id="btnEdit" class="btn btn-primary"><spring:message code="action.edit" /></button>
-                            <button type="button" id="btnRemove" class="btn" style="color:#ef4444; border-color:#fecaca;"><spring:message code="action.remove" /></button>
+                            <button type="button" id="btnRemove" class="btn btn-remove-reply"><spring:message code="action.remove" /></button>
                         </sec:authorize>
 
                         <sec:authorize access="hasRole('ROLE_MEMBER') and !hasRole('ROLE_ADMIN')">
                             <c:if test="${loginId eq board.writer}">
                                 <button type="button" id="btnEdit" class="btn btn-primary"><spring:message code="action.edit" /></button>
-                                <button type="button" id="btnRemove" class="btn" style="color:#ef4444; border-color:#fecaca;"><spring:message code="action.remove" /></button>
+                                <button type="button" id="btnRemove" class="btn btn-remove-reply"><spring:message code="action.remove" /></button>
                             </c:if>
                         </sec:authorize>
                     </div>
@@ -74,18 +74,17 @@
             </div>
         </div>
 
-        <%-- 2. 댓글 목록 영역 (DIV 기반 Flex 구조 적용) --%>
+        <%-- 댓글 목록 영역 --%>
         <div class="comment-list-card card">
             <h3 class="comment-card-title">댓글 (${commentList.size()})</h3>
             
             <c:choose>
                 <c:when test="${empty commentList}">
-                    <div style="text-align: center; color: var(--muted); padding: 20px;">첫 번째 댓글을 남겨보세요!</div>
+                    <div class="empty-comment-msg">첫 번째 댓글을 남겨보세요!</div>
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${commentList}" var="c">
                         <div class="comment-item">
-                            <%-- 댓글 헤더 (작성자, 날짜, 버튼) --%>
                             <div class="comment-header-flex">
                                 <div class="comment-user-info">
                                     <span class="col-commenter">${c.commenter}</span>
@@ -118,7 +117,6 @@
                                     </sec:authorize>
                                 </div>
                             </div>
-                            <%-- 댓글 본문 --%>
                             <div class="comment-body-content">
                                 <c:choose>
                                     <c:when test="${editCommentNo == c.commentNo}">
@@ -126,8 +124,8 @@
                                             <input type="hidden" name="boardNo" value="${board.boardNo}" />
                                             <input type="hidden" name="commentNo" value="${c.commentNo}" />
                                             <textarea class="comment-write-text" name="content" required>${c.content}</textarea>
-                                            <div style="text-align: right; margin-top: 8px;">
-                                                <button type="submit" class="btn btn-primary" style="height: 32px;">저장</button>
+                                            <div class="comment-edit-actions">
+                                                <button type="submit" class="btn btn-primary">저장</button>
                                             </div>
                                         </form>
                                     </c:when>
@@ -140,8 +138,8 @@
             </c:choose>
         </div>
 
-        <%-- 3. 댓글 작성 영역 --%>
-        <div class="comment-write-card card" style="margin-bottom: 60px;">
+        <%-- 댓글 작성 영역 --%>
+        <div class="comment-write-card card">
             <h3 class="comment-card-title">댓글 작성</h3>
             <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')">
                 <form id="commentForm" action="<c:url value='/comment/register'/>" method="post">
@@ -160,8 +158,8 @@
                 </form>
             </sec:authorize>
             <sec:authorize access="!isAuthenticated()">
-                <div style="text-align: center; color: var(--muted); padding: 10px;">
-                    댓글을 남기려면 <a href="/auth/login" style="color: var(--primary); font-weight: 800;">로그인</a>이 필요합니다.
+                <div class="login-needed-msg">
+                    댓글을 남기려면 <a href="/auth/login">로그인</a>이 필요합니다.
                 </div>
             </sec:authorize>
         </div>
@@ -190,7 +188,6 @@
                     let boardNo = $("input[name='boardNo']").val();
                     let page = $("#page").val();
                     let sizePerPage = $("#sizePerPage").val();
-                    // 삭제 시 보안을 위해 post가 권장되지만, 현재 컨트롤러가 GET 기반이라면 아래 유지
                     self.location = "/board/remove?boardNo=" + boardNo + "&page=" + page + "&sizePerPage=" + sizePerPage;
                 }
             });

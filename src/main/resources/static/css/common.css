@@ -647,17 +647,18 @@ hr{
   width: 100%;
 }
 
-/* ============================================================
-   [최종 교정본] 댓글 리스트 및 작성 폼 (Flex 전용)
-============================================================ */
 
-/* 1. 댓글 공통 카드 스타일 */
+/* =========================
+   댓글 리스트 및 작성 폼
+========================= */
+/* 댓글 공통 카드 스타일 */
 .comment-list-card, .comment-write-card {
     margin-top: 24px;
     padding: 20px !important;
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
 .comment-card-title {
@@ -667,7 +668,7 @@ hr{
     color: var(--title);
 }
 
-/* 2. 댓글 리스트 아이템 (DIV 기반) */
+/* 댓글 리스트 아이템 */
 .comment-item {
     padding: 16px 5px;
     border-bottom: 1.5px solid #e2e8f0; 
@@ -675,15 +676,15 @@ hr{
 }
 .comment-item:last-child { border-bottom: none; }
 
-/* [중요] 상단 정보 영역: 좌측(닉네임+날짜) / 우측(버튼) 분리 */
+/* 상단 정보 영역: 좌측(닉네임+날짜) / 우측(버튼) 분리 */
 .comment-header-flex {
     display: flex !important;
-    justify-content: space-between !important; /* 양 끝으로 밀어냄 */
+    justify-content: space-between !important; 
     align-items: center !important;
     margin-bottom: 8px;
 }
 
-/* 좌측 정보: 닉네임과 날짜 나란히 배치 */
+/* 좌측 정보: 닉네임과 날짜 */
 .comment-user-info {
     display: flex !important;
     align-items: center !important;
@@ -701,7 +702,7 @@ hr{
     color: var(--muted);
 }
 
-/* 우측 버튼: 크기 고정 및 정렬 */
+/* 우측 버튼 영역 */
 .comment-actions {
     display: flex !important;
     gap: 6px;
@@ -738,7 +739,7 @@ hr{
     background: #fef2f2;
 }
 
-/* 댓글 내용 영역 */
+/* 댓글 본문 내용 */
 .comment-body-content {
     font-size: 14px;
     color: var(--muted-2);
@@ -746,11 +747,11 @@ hr{
     padding-left: 2px;
 }
 
-/* 3. 댓글 작성 폼 (가로 배치 및 높이 일치) */
+/* 댓글 작성 및 수정 폼 */
 .comment-write-row {
     display: flex !important;
     gap: 12px !important;
-    align-items: stretch !important; /* 높이 자동 일치 */
+    align-items: stretch !important;
 }
 
 .comment-writer-box {
