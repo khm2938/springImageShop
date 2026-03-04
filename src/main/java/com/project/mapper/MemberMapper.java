@@ -34,5 +34,28 @@ public interface MemberMapper {
 	
 	// 회원 테이블의 데이터 건수 조회 
 	public int countAll() throws Exception;
+	// 회원의 코인을 반환한다. 
+	public int getCoin(Member member) throws Exception;
 }
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -910,6 +910,109 @@ hr{
     border-color: #ef4444 !important;
 }
 
+/* ===============================
+   상품 상세 및 구매 (Item Read/Buy)
+=============================== */
+
+/* 전체 컨테이너 여백 */
+.item-wrap {
+    margin: 40px auto;
+}
+
+/* 카드 내부 패딩 조정 */
+.item-card {
+    padding: 32px;
+}
+
+/* 이미지 레이아웃: 이미지와 폼을 가로로 배치 */
+.item-content-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start; /* 세로 시작점 정렬 */
+    margin-bottom: 24px;
+}
+
+/* 이미지 영역 스타일 */
+.item-read-img {
+    flex-shrink: 0; /* 이미지 크기 유지 */
+    width: 210px;
+    height: 310px; /* 높이 고정 (선택사항) */
+    object-fit: contain; /* 이미지 비율 유지 */
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--line);
+    transition: transform 0.2s;
+}
+
+.item-read-img:hover {
+    transform: scale(1.02);
+}
+
+/* 폼 데이터 영역 스타일 */
+.item-form-data-wrap {
+    flex: 1; /* 남은 공간 모두 차지 */
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* 입력창 간격 */
+}
+
+/* 입력창 및 가격 단위 스타일 */
+.item-input-buy-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.item-input-buy-form input[type="text"],
+.item-input-buy-form textarea {
+    width: 100% !important;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 15px;
+    background: #f8fafc; /* 읽기 전용 느낌 */
+    outline: none;
+    cursor: default; /* 클릭해도 반응 없도록 (읽기전용일때) */
+}
+
+/* 가격 단위 스타일 (원) */
+.price-input-unit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.price-input-unit input {
+    flex: 1;
+    padding-right: 40px !important; /* '원' 겹치지 않도록 */
+}
+
+.price-unit-text {
+    position: absolute;
+    right: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+    color: #ef4444; 
+    font-size: 12px; 
+    margin: 2px 0 0 5px; 
+    display: block; 
+    font-weight: 700;
+}
+
+/* 하단 버튼 영역 스타일 */
+.item-actions {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    gap: 10px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
 
 /* =========================
    User List (회원 관리 전용)

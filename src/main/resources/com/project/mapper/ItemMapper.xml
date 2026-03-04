@@ -24,8 +24,7 @@
 		SELECT item_id, item_name, price,
 		description, picture_url, preview_url
 		FROM item
-		WHERE item_id =
-		#{itemId}
+		WHERE item_id = #{itemId}
 	</select>
 
 	<!-- 상품 수정 처리 -->

@@ -87,7 +87,12 @@
 		SELECT count(*)
 		FROM member
 	</select>
-
+	<!-- 회원 코인 조회 -->
+	<select id="getCoin" resultType="int">
+		SELECT coin 
+		FROM member
+		WHERE user_no = #{userNo}
+	</select>
 
 
 

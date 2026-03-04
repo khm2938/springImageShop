@@ -38,6 +38,9 @@
 			<!-- 코인 충전과 충전 내역 --> 
 			<a class="menu-link" href="/coin/charge"><spring:message code="menu.coin.charge" /></a>
 			<a class="menu-link" href="/coin/list"><spring:message code="menu.coin.list" /></a>
+			<!-- 구매 상품과 구매 내역 --> 
+			<a class="menu-link" href="/useritem/list"><spring:message code="menu.useritem.list" /></a> 
+			<a class="menu-link" href="/coin/listPay"><spring:message code="menu.coin.listPay" /></a>
 		</sec:authorize>
 
 		<!-- 유저/로그아웃 (오른쪽에 붙이기) -->

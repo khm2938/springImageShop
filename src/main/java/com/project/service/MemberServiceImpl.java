@@ -99,5 +99,28 @@ public class MemberServiceImpl implements MemberService {
 			mapper.createAuth(memberAuth);
 		}
 	}
+	
+	// 회원의 코인을 반환한다. 
+	@Override
+	public int getCoin(Member member) throws Exception {
+		return mapper.getCoin(member);
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

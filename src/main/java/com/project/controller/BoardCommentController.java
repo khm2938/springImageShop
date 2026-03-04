@@ -57,7 +57,7 @@ public class BoardCommentController {
 
 		return "redirect:/board/read?boardNo=" + comment.getBoardNo();
 	}
-
+	
 	// 댓글 수정 처리
 	@PostMapping("/modify")
 	@PreAuthorize("hasRole('ROLE_MEMBER')")

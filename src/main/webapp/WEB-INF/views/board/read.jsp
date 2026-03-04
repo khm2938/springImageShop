@@ -30,7 +30,7 @@
                 <sec:authorize access="isAuthenticated()">
                     <sec:authentication property="principal.username" var="loginId" />
                 </sec:authorize>
-
+				
                 <form:form modelAttribute="board" id="boardForm">
                     <form:hidden path="boardNo" />
                     <input type="hidden" id="page" name="page" value="${pgrq.page}">

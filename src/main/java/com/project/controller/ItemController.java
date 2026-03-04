@@ -100,7 +100,12 @@ public class ItemController {
 	@GetMapping(value = "/read")
 	public String read(Item item, Model model) throws Exception {
 		Item _item = itemService.read(item);
-		model.addAttribute("item", _item);
+		
+		if(item != null) {
+			model.addAttribute("item", _item);
+		}else {
+			throw new Exception("에러!!!");
+		}
 		return "item/read";
 	}
 
@@ -190,26 +195,36 @@ public class ItemController {
 		return "redirect:/item/list";
 	}
 
-	/*
 	// 상품 구매 요청을 처리한다.
 	@PostMapping("/buy")
 	@PreAuthorize("hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')")
-	public String buy(int itemId, RedirectAttributes rttr, Authentication authentication) throws Exception {
+	public String buy(Item item, RedirectAttributes rttr, Authentication authentication) throws Exception {
 		// 인증된 사용자정보
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		Member member = customUser.getMember();
-		int userNo = member.getUserNo();
-		
-		member.setCoin(memberService.getCoin(userNo));
 
-		Item item = itemService.read(itemId);
-		userItemService.register(member, item);
-		String message = messageSource.getMessage("item.purchaseComplete", null, Locale.KOREAN);
-		rttr.addFlashAttribute("msg", message);
+		// 해당되는 회원코인정보를 가져와서 저장한다
+		member.setCoin(memberService.getCoin(member));
 
+		// 상품정보를 가져온다
+		Item _item = itemService.read(item);
+
+		// 장바구니 생성
+		int count = userItemService.register(member, _item);
+
+		if (count != 0) {
+			rttr.addFlashAttribute("msg", "구매가 완료되었습니다");
+		} else {
+			rttr.addFlashAttribute("msg", "구매 실패하였습니다");
+		}
 		return "redirect:/item/success";
 	}
-	*/
+
+	// 상품 구매 성공 페이지를 표시한다.
+	@GetMapping("/success")
+	public String success() throws Exception {
+		return "item/success";
+	}
 
 	// 원본이미지 표시
 	@ResponseBody
