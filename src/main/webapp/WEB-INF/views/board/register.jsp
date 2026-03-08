@@ -54,13 +54,12 @@
                         <spring:message code="action.list" />
                     </button>
                     
-                    <div class="admin-actions">
-                        <sec:authorize access="isAuthenticated()">
-                            <button type="button" id="btnRegister" class="btn btn-primary">
-                                <spring:message code="action.register" />
-                            </button>
-                        </sec:authorize>
-                    </div>
+                    <sec:authorize access="isAuthenticated()">
+                        <button type="button" id="btnRegister" class="btn btn-primary">
+                            <spring:message code="action.register" />
+                        </button>
+                    </sec:authorize>
+                    
                 </div>
             </form:form>
         </div>

@@ -19,8 +19,8 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 	<%-- 전체 레이아웃 컨테이너 --%>
-	<div class="container coin-charge-wrap">
-		<div class="card coin-charge-card">
+	<div class="container board-register-wrap">
+		<div class="card board-register-card">
 
 			<%-- 헤더 영역 --%>
 			<div class="coin-head">
@@ -31,16 +31,21 @@
 
 			<%-- 충전 폼 --%>
 			<form:form modelAttribute="chargeCoin" action="charge">
-				<table>
+				<table class="board_table">
 					<tr>
 						<td><spring:message code="coin.amount" /></td>
-						<td><form:input path="amount" /></td>
-						<td><font color="red"><form:errors path="amount" /></font></td>
+						<td>
+							<div class="input-price-unit">
+								<form:input path="amount" placeholder="충전할 금액을 입력하세요" />
+								<span class="unit-text">원</span>
+							</div>
+							<form:errors path="amount" cssClass="error-message" />
+						</td>
 					</tr>
 				</table>
-			</form:form>
+			
 
-			<div>
+			<div class="board-register-actions">
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 					<button type="submit" id="btnCharge">
 						<spring:message code="action.charge" />
@@ -50,6 +55,7 @@
 					</button>
 				</sec:authorize>
 			</div>
+		</form:form>
 
 		</div>
 	</div>

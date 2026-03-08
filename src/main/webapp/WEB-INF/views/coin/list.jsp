@@ -19,30 +19,47 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-	<div class="container charge-coin">
-		<table border="1">
-			<tr>
-				<th align="center" width="80"><spring:message code="coin.no" /></th>
-				<th align="center" width="320"><spring:message code="coin.amount" /></th>
-				<th align="center" width="180"><spring:message code="coin.regdate" /></th>
-			</tr>
-			<c:choose>
-				<c:when test="${empty list}">
-					<tr>
-						<td colspan="3"><spring:message code="common.listEmpty" /></td>
-					</tr>
-				</c:when>
-				<c:otherwise>
-					<c:forEach items="${list}" var="chargeCoin">
+	<div class="container charge-coin-page">
+		<div class="card charge-coin-card">
+			<div class="charge-coin-head">
+				<h2 class="charge-coin-title">
+					<spring:message code="coin.header.list" />
+				</h2>
+			</div>
+
+			<div class="charge-coin-table-wrap">
+				<table class="charge-coin-table">
+					<thead>
 						<tr>
-							<td align="center">${chargeCoin.historyNo}</td>
-							<td align="left">${chargeCoin.amount}</td>
-							<td align="center"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${chargeCoin.regDate}" /></td>
+							<th class="col-no"><spring:message code="coin.no" /></th>
+							<th class="col-amount"><spring:message code="coin.amount" /></th>
+							<th class="col-date"><spring:message code="coin.regdate" /></th>
 						</tr>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-		</table>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${empty list}">
+								<tr class="empty-row">
+									<td colspan="3"><spring:message code="common.listEmpty" /></td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${list}" var="chargeCoin">
+									<tr>
+										<td class="text-center">${chargeCoin.historyNo}</td>
+										<td class="text-right amount-text"><fmt:formatNumber
+												value="${chargeCoin.amount}" type="number" /> P</td>
+										<td class="text-center"><fmt:formatDate
+												pattern="yyyy-MM-dd HH:mm" value="${chargeCoin.regDate}" />
+										</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
