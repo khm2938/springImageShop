@@ -950,7 +950,7 @@ hr{
 
 /* 폼 데이터 영역 스타일 */
 .item-form-data-wrap {
-    flex: 1; /* 남은 공간 모두 차지 */
+    
     display: flex;
     flex-direction: column;
     gap: 16px; /* 입력창 간격 */
@@ -958,6 +958,7 @@ hr{
 
 /* 입력창 및 가격 단위 스타일 */
 .item-input-buy-form {
+	
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -965,6 +966,7 @@ hr{
 
 .item-input-buy-form input[type="text"],
 .item-input-buy-form textarea {
+    
     width: 100% !important;
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -974,6 +976,9 @@ hr{
     outline: none;
     cursor: default; /* 클릭해도 반응 없도록 (읽기전용일때) */
 }
+
+
+
 
 /* 가격 단위 스타일 (원) */
 .price-input-unit {
