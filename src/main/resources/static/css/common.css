@@ -538,11 +538,18 @@ hr{
 
 .board-register-actions{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
   width: 100%;
   margin-top: 25px;
   padding: 0;
+  gap: 10px;
+}
+
+.board-list-actions{
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  gap: 10px;
 }
 
 .admin-actions {
@@ -637,15 +644,30 @@ hr{
   transform: translateY(-1px);
 }
 
+/* 게시판 하단 페이징 + 버튼 한 줄 배치 */
+.board-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 양 끝으로 배치 */
+    margin-top: 20px;
+    padding: 0 10px;
+    position: relative;
+}
+
 /* 페이징 네비게이션 */
 .pagination {
+  flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 0; 
+  padding-left: 140px; 
   gap: 8px;
-  margin-top: 20px;
-  width: 100%;
+  margin: 20px 0;
 }
+
+
+
+
 
 
 /* =========================
@@ -1212,11 +1234,312 @@ hr{
 /* 상세페이지 하단 버튼 그룹 */
 .board-register-actions {
   display: flex;
-  justify-content: space-between; 
+  justify-content: flex-end; 
   margin-top: 30px;
+}
+
+
+/* =========================
+   listPay (구매 내역)
+========================= */
+.listPay-page {
+  margin-top: 24px;
+}
+
+.listPay-card {
+  padding: 22px;
+}
+
+.listPay-head {
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--primary-bg);
+  padding-bottom: 12px;
+}
+
+.listPay-title {
+  margin: 0;
+  font-size: 22px;
+  color: var(--title);
+  letter-spacing: -0.3px;
+}
+
+.listPay-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.listPay-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.listPay-table th {
+  background: #f9fafb;
+  border-bottom: 1px solid var(--line);
+  padding: 12px;
+  color: var(--muted-2);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.listPay-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 14px;
+  color: var(--title);
+}
+
+.listPay-table tr:hover {
+  background: #f9fafb;
+}
+
+/* 금액 강조 스타일 */
+.listPay-table td:nth-child(3) {
+  font-weight: 800;
+  color: var(--primary);
+  text-align: right;
+  padding-right: 20px;
+}
+
+/* 빈 목록 처리 */
+.listPay-table .empty-row td {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+  font-weight: 700;
 }
 
 .admin-actions {
   display: flex;
   gap: 10px;
+}
+
+
+/* =========================
+   Coin Charge (코인 충전 전용)
+========================= */
+
+.coin-head {
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary-bg);
+}
+
+.coin-head h2 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--title);
+    letter-spacing: -0.5px;
+}
+
+/* 금액 입력창 옆 '원' 표시 */
+.input-price-unit {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+}
+
+.input-price-unit .unit-text {
+    position: absolute;
+    right: 14px;
+    font-weight: 800;
+    color: var(--primary);
+    font-size: 14px;
+}
+
+/* 입력창 포커스 효과 강화 */
+.input-price-unit input:focus {
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================
+   Charge Coin History (코인 충전 내역)
+========================= */
+.charge-coin-page {
+    margin-top: 24px;
+}
+
+.charge-coin-card {
+    padding: 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-width: 600px; 
+    margin: 0 auto;
+}
+
+.charge-coin-head {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary-bg);
+}
+
+.charge-coin-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--title);
+}
+
+.charge-coin-table-wrap {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.charge-coin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.charge-coin-table th {
+    background-color: #f8f9fa;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted-2);
+    border-bottom: 1px solid var(--line);
+}
+
+.charge-coin-table td {
+    padding: 14px 12px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.charge-coin-table th.col-date, 
+.charge-coin-table td:nth-child(3) { 
+    width: 200px; 
+}
+
+/* 테이블 열 너비 및 정렬 제어 */
+.col-no { width: 100px; }
+.col-date { width: 200px; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* 금액 텍스트 스타일링 */
+.amount-text {
+    font-weight: 700;
+    color: #28a745;
+    text-align: right; 
+    padding-right: 40px !important;
+}
+
+.charge-coin-table tr:hover {
+    background-color: #fcfcfc;
+}
+
+.empty-row td {
+    padding: 50px 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+
+/* =========================
+   User Item List (구매 상품 목록)
+========================= */
+.useritem-page {
+    margin-top: 24px;
+}
+
+.useritem-card {
+    padding: 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.useritem-head {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary-bg);
+}
+
+.useritem-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--title);
+}
+
+.useritem-table-wrap {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.useritem-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.useritem-table th {
+    background-color: #f8f9fa;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted-2);
+    border-bottom: 1px solid var(--line);
+}
+
+.useritem-table td {
+    padding: 14px 12px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+/* 열 너비 및 정렬 */
+.col-no { width: 80px; }
+.col-price { width: 120px; }
+.col-date { width: 180px; }
+.col-download { width: 150px; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* 상품명 링크 */
+.item-link {
+    color: var(--title);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.item-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+/* 다운로드 버튼 스타일 */
+.btn-download {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff !important;
+    background-color: var(--primary);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid var(--primary);
+}
+
+.btn-download:hover {
+    background-color: var(--primary-dark, #0056b3) !important; 
+    border-color: var(--primary-dark, #0056b3) !important;
+    color: #ffffff !important;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.useritem-table tr:hover {
+    background-color: #fcfcfc;
 }

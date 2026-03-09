@@ -35,6 +35,9 @@ import com.project.service.ItemService;
 import com.project.service.MemberService;
 import com.project.service.UserItemService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/item")
 public class ItemController {
@@ -206,12 +209,18 @@ public class ItemController {
 		// 해당되는 회원코인정보를 가져와서 저장한다
 		member.setCoin(memberService.getCoin(member));
 
+		log.info("보유 코인 coin = {}", member.getCoin());
+		
 		// 상품정보를 가져온다
 		Item _item = itemService.read(item);
+		
+		log.info("구매할 아이템 item = {}", item);
 
 		// 장바구니 생성
 		int count = userItemService.register(member, _item);
 
+		log.info("service.buy() 결과 count = {}", count);
+		
 		if (count != 0) {
 			rttr.addFlashAttribute("msg", "구매가 완료되었습니다");
 		} else {

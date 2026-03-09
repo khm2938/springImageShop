@@ -27,34 +27,49 @@
 				</h2>
 			</div>
 <input type="hidden" name="userItemNo" value="${useritem.userItemNo}" />
-			<div class="board-table-wrap">
-				<table class="board-table">
-						<tr>
-							<th align="center" width="80"><spring:message code="useritem.no" /></th>
-							<th align="center" width="100"><spring:message code="useritem.itemName" /></th>
-							<th align="center" width="100"><spring:message code="useritem.itemPrice" /></th>
-							<th align="center" width="180"><spring:message code="useritem.regdate" /></th>
-							<th align="center" width="180"><spring:message code="useritem.download" /></th>
-						</tr>
-						<c:choose>
-							<c:when test="${empty list}">
-								<tr>
-									<td colspan="5"><spring:message code="common.listEmpty" />
-									</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-								<c:forEach items="${list}" var="useritem">
-									<tr>
-										<td align="center">${useritem.userItemNo}</td>
-										<td align="left"><a href="/useritem/read?userItemNo=${useritem.userItemNo}">${useritem.itemName}</a></td>
-										<td align="right">${useritem.price}</td>
-										<td align="center"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${useritem.regDate}" /></td>
-										<td align="center"><a href="/useritem/download?userItemNo=${useritem.userItemNo}">DOWNLOAD</a></td>
-									</tr>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
+			<div class="useritem-table-wrap">
+				<table class="useritem-table">
+						<thead>
+                    <tr>
+                        <th class="col-no"><spring:message code="useritem.no" /></th>
+                        <th class="col-name"><spring:message code="useritem.itemName" /></th>
+                        <th class="col-price"><spring:message code="useritem.itemPrice" /></th>
+                        <th class="col-date"><spring:message code="useritem.regdate" /></th>
+                        <th class="col-download"><spring:message code="useritem.download" /></th>
+                    </tr>
+                </thead>
+						<tbody>
+                    <c:choose>
+                        <c:when test="${empty list}">
+                            <tr class="empty-row">
+                                <td colspan="5"><spring:message code="common.listEmpty" /></td>
+                            </tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${list}" var="useritem">
+                                <tr>
+                                    <td class="text-center">${useritem.userItemNo}</td>
+                                    <td class="text-left">
+                                        <a class="item-link" href="/useritem/read?userItemNo=${useritem.userItemNo}">
+                                            ${useritem.itemName}
+                                        </a>
+                                    </td>
+                                    <td class="text-right">
+                                        <fmt:formatNumber value="${useritem.price}" type="number"/> P
+                                    </td>
+                                    <td class="text-center">
+                                        <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${useritem.regDate}" />
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/useritem/download?userItemNo=${useritem.userItemNo}" class="btn-download">
+                                            DOWNLOAD
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
 				</table>
 			</div>
 		</div>

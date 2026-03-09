@@ -49,9 +49,18 @@ public class CoinController {
 		Member member = customUser.getMember();
 		int userNo = member.getUserNo();
 
+		log.info("충전 전 amount = {}", chargeCoin.getAmount());
+	    log.info("로그인 userNo = {}", userNo);
+		
 		chargeCoin.setUserNo(userNo);
+		
+		log.info("chargeCoin userNo = {}", chargeCoin.getUserNo());
+	    log.info("chargeCoin amount = {}", chargeCoin.getAmount());
+	    
 		int count = service.charge(chargeCoin);
 
+		log.info("service.charge() 결과 count = {}", count);
+		
 		if (count != 0) {
 			String message = messageSource.getMessage("coin.chargingComplete", null, Locale.KOREAN);
 			rttr.addFlashAttribute("msg", message);
